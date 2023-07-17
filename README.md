@@ -1,0 +1,5 @@
+- Agregar la opción de calcular todas las notas con mismo porcentaje (checkbox)
+- Agregar la opción de guardar notas (con nombre personalizado)
+- Agregar nombre o label custom de cada nota (?)
+- Permitir compartir notas (?)
+- Agregar mínimo / máximo de nota, además de mínimo para aprobación o mínimo para exámen
