@@ -1,9 +1,10 @@
 import { useState } from "react";
+import { Center } from "@chakra-ui/layout";
 import FormPromedio from "../../components/FormPromedio";
 import Colecciones from "../../components/Colecciones";
 
 function Inicio() {
-  const [selectedCollection, setSelectedCollection] = useState("");
+  const [selectedCollection, setSelectedCollection] = useState(null);
 
   return (
     <div>
@@ -11,10 +12,12 @@ function Inicio() {
         selectedCollection={selectedCollection}
         setSelectedCollection={setSelectedCollection}
       />
-      <FormPromedio
-        coleccion={selectedCollection}
-        clearSelected={() => setSelectedCollection("")}
-      />
+      <Center>
+        <FormPromedio
+          coleccion={selectedCollection}
+          clearSelected={() => setSelectedCollection("")}
+        />
+      </Center>
     </div>
   );
 }

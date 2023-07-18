@@ -25,7 +25,15 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <ChakraProvider>
+        <ChakraProvider
+          toastOptions={{
+            defaultOptions: {
+              position: "bottom",
+              isClosable: true,
+              duration: 3000,
+            },
+          }}
+        >
           <AppRoutes />
           <ToastContainer />
         </ChakraProvider>

@@ -33,6 +33,7 @@
     "react/react-in-jsx-scope": ["off"],
     "react/jsx-props-no-spreading": ["off"],
     "react/prop-types": ["off"],
+    "import/no-extraneous-dependencies": ["off"],
     "react/function-component-definition": [
       "error",
       {
@@ -42,7 +43,7 @@
     "import/no-cycle": ["off"],
     "react/forbid-prop-types": ["off"],
     "prettier/prettier": ["off"],
-    "no-shadow": "off",
+    "no-shadow": ["off"],
     "no-console": ["error"]
   }
 }

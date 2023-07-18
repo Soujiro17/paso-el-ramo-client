@@ -63,16 +63,20 @@ function Colecciones({ setSelectedCollection, selectedCollection }) {
       flexWrap="wrap"
       padding="5"
     >
-      {colecciones.map((coleccion) => (
-        <ColeccionItem
-          id={coleccion.id}
-          onClick={() => setSelectedCollection(coleccion)}
-          key={coleccion.id}
-          nombre={coleccion.nombre}
-          bgColor={coleccion.bgColor}
-          editing={coleccion.id === selectedCollection?.id}
-        />
-      ))}
+      {colecciones.map((coleccion) => {
+        const isEqual = coleccion.id === selectedCollection?.id;
+
+        return (
+          <ColeccionItem
+            id={coleccion.id}
+            onClick={() => setSelectedCollection(isEqual ? null : coleccion)}
+            key={coleccion.id}
+            nombre={coleccion.nombre}
+            bgColor={coleccion.bgColor}
+            editing={isEqual}
+          />
+        );
+      })}
       <Box
         key={0}
         height="150px"
