@@ -18,6 +18,7 @@ import { v4 as uuidv4 } from "uuid";
 import useAuth from "../../hooks/useAuth";
 import Nota from "../Nota";
 import AlertDialogComponent from "../AlertDialog";
+import CustomEditable from "../CustomEditable";
 
 function FormPromedio({ coleccion, clearSelected }) {
   const [newColeccion, setNewColeccion] = useState(null);
@@ -50,7 +51,7 @@ function FormPromedio({ coleccion, clearSelected }) {
   const updateNota = (ev, id) =>
     setNewColeccion((prev) => ({
       ...prev,
-      notas: newColeccion.map((nota) => {
+      notas: newColeccion.notas.map((nota) => {
         if (nota.id === id)
           return { ...nota, [ev.target.name]: ev.target.value };
 
@@ -66,6 +67,9 @@ function FormPromedio({ coleccion, clearSelected }) {
 
     setPromedio(notasPonderadas / (newColeccion?.notas?.length || 1));
   };
+
+  const onEditColeccion = (e) =>
+    setNewColeccion((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
   const onDeleteColeccion = () => {
     toast({
@@ -122,7 +126,7 @@ function FormPromedio({ coleccion, clearSelected }) {
           nota={nota}
           porcentaje={porcentaje}
           deleteNota={delNota}
-          onChange={updateNota}
+          onChange={(e) => updateNota(e, id)}
         />
       )
     );
@@ -135,21 +139,34 @@ function FormPromedio({ coleccion, clearSelected }) {
           display="flex"
           gap="10px"
           flexDirection="column"
+          maxWidth="100%"
+          overflow="hidden"
+          textOverflow="ellipsis"
+          whiteSpace="nowrap"
+          wordBreak="break-all"
           mb="2"
         >
           <Divider />
-          <Text
+          <Box
             display="flex"
             alignItems="center"
             justifyContent="center"
             gap="10px"
             fontSize="2xl"
           >
-            Editando <Badge fontSize="2xl">{newColeccion.nombre}...</Badge>
-          </Text>
+            Editando{" "}
+            <CustomEditable
+              value={newColeccion?.nombre}
+              name="nombre"
+              maxLength={30}
+              onChange={onEditColeccion}
+              badge
+            />
+          </Box>
           <Divider />
         </Box>
       )}
+
       {contentToRender}
       {newColeccion && (
         <Stack display="flex" gap="10px" marginTop="50px">

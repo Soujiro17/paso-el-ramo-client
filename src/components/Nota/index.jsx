@@ -4,19 +4,26 @@ import {
   InputGroup,
   InputRightElement,
   Stack,
-  Text,
 } from "@chakra-ui/react";
+import CustomEditable from "../CustomEditable";
 
 function Nota({ nombre, index, id, onChange, nota, porcentaje, deleteNota }) {
   return (
     <Stack flexDirection="row" alignItems="center">
-      <Text>{nombre || `Nota ${index}`}</Text>
+      <CustomEditable
+        value={nombre || `Nota ${index}`}
+        name="nombre"
+        maxLength={30}
+        onChange={onChange}
+        fontSize=""
+        width="120px"
+      />
       <Input
         type="number"
         min={0}
         name="nota"
         value={nota}
-        onChange={(e) => onChange(e, id)}
+        onChange={onChange}
         placeholder="Nota"
         width="150px"
       />
@@ -27,7 +34,7 @@ function Nota({ nombre, index, id, onChange, nota, porcentaje, deleteNota }) {
           max={100}
           name="porcentaje"
           value={porcentaje}
-          onChange={(e) => onChange(e, id)}
+          onChange={onChange}
           placeholder="Porcentaje"
         />
         <InputRightElement>%</InputRightElement>
