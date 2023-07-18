@@ -22,22 +22,20 @@ if (import.meta.env.VITE_NODE_ENV !== "development") {
 }
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <ChakraProvider
-          toastOptions={{
-            defaultOptions: {
-              position: "top-right",
-              isClosable: true,
-              duration: 3000,
-            },
-          }}
-        >
-          <AppRoutes />
-          <ToastContainer />
-        </ChakraProvider>
-      </AuthProvider>
-    </QueryClientProvider>
-  </React.StrictMode>
+  <QueryClientProvider client={queryClient}>
+    <AuthProvider>
+      <ChakraProvider
+        toastOptions={{
+          defaultOptions: {
+            position: "top-right",
+            isClosable: true,
+            duration: 3000,
+          },
+        }}
+      >
+        <AppRoutes />
+        <ToastContainer />
+      </ChakraProvider>
+    </AuthProvider>
+  </QueryClientProvider>
 );

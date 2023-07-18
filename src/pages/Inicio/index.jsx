@@ -16,7 +16,7 @@ function Inicio() {
       <Center>
         <FormPromedio
           coleccion={selectedCollection}
-          clearSelected={() => setSelectedCollection("")}
+          clearSelected={() => setSelectedCollection(null)}
         />
       </Center>
     </PageLayout>

@@ -7,6 +7,10 @@ export default [
     nombre: "Administración General",
     mismoPorcentaje: false,
     bgColor: colors.green.normal,
+    notaMinimaAprobacion: 40,
+    notaMaxima: 70,
+    promedioParcial: 0,
+    promedioFinal: 0,
     examen: {
       id: uuidv4(),
       nota: 40,

@@ -11,3 +11,5 @@
 - <input type="checkbox"> Agregar mínimo / máximo de nota, además de mínimo para aprobación o mínimo para exámen
 
 - <input type="checkbox"> Agregar hovers a las colecciones
+
+- <input type="checkbox"> Instructivo en el README para invitar a la gente a que se registre y pueda guardar sus notas. Esto quiere decir que, en el inicio, no debería mostrar las colecciones (?)
