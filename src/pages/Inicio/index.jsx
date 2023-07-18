@@ -2,12 +2,13 @@ import { useState } from "react";
 import { Center } from "@chakra-ui/layout";
 import FormPromedio from "../../components/FormPromedio";
 import Colecciones from "../../components/Colecciones";
+import PageLayout from "../../layouts/PageLayout";
 
 function Inicio() {
   const [selectedCollection, setSelectedCollection] = useState(null);
 
   return (
-    <div>
+    <PageLayout>
       <Colecciones
         selectedCollection={selectedCollection}
         setSelectedCollection={setSelectedCollection}
@@ -18,7 +19,7 @@ function Inicio() {
           clearSelected={() => setSelectedCollection("")}
         />
       </Center>
-    </div>
+    </PageLayout>
   );
 }
 
