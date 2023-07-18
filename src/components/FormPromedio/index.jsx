@@ -43,13 +43,43 @@ function FormPromedio({ coleccion, clearSelected }) {
       ],
     }));
 
-  const delNota = (id) =>
+  const addExamen = () =>
+    setNewColeccion((prev) => ({
+      ...prev,
+      examen: {
+        id: uuidv4(),
+        nombre: "Exámen",
+        nota: "",
+        porcentaje: "",
+      },
+    }));
+
+  const delNota = (id) => {
+    if (id === "examen") {
+      setNewColeccion((prev) => ({
+        ...prev,
+        examen: null,
+      }));
+
+      return;
+    }
+
     setNewColeccion((prev) => ({
       ...prev,
       notas: newColeccion.notas.filter((nota) => nota.id !== id),
     }));
+  };
 
-  const updateNota = (ev, id) =>
+  const updateNota = (ev, id) => {
+    if (id === "examen") {
+      setNewColeccion((prev) => ({
+        ...prev,
+        examen: { ...prev.examen, [ev.target.name]: ev.target.value },
+      }));
+
+      return;
+    }
+
     setNewColeccion((prev) => ({
       ...prev,
       notas: newColeccion.notas.map((nota) => {
@@ -59,6 +89,7 @@ function FormPromedio({ coleccion, clearSelected }) {
         return nota;
       }),
     }));
+  };
 
   const calcularPromedioParcial = () => {
     const notasPonderadas = newColeccion?.notas?.reduce(
@@ -127,7 +158,7 @@ function FormPromedio({ coleccion, clearSelected }) {
           nota={nota}
           porcentaje={porcentaje}
           deleteNota={delNota}
-          onChange={(e) => updateNota(e, id)}
+          updateNota={updateNota}
         />
       )
     );
@@ -183,31 +214,60 @@ function FormPromedio({ coleccion, clearSelected }) {
         )}
         {contentToRender}
         {newColeccion && (
-          <Stack display="flex" gap="10px" marginTop="50px">
+          <>
             <Button colorScheme="blue" onClick={addNota}>
               Añadir nota
             </Button>
-            <Center gap="10px">
-              <Button colorScheme="green" onClick={onClickSave}>
-                Guardar colección
-              </Button>
-              <AlertDialogComponent
-                onConfirm={onDeleteColeccion}
-                buttonText="Eliminar colección"
-                confirmText="Eliminar"
-                description={`¿Deseas eliminar la colección <strong>${newColeccion.nombre}</strong>?`}
-                title="Eliminar colección"
-                onConfirmMessage="Colección eliminada con éxito"
-                onConfirmTitle="Eliminación exitosa"
-              />
-            </Center>
-          </Stack>
+            <Box width="100%" mt="2">
+              <Divider />
+            </Box>
+            <Flex flexDirection="column" textAlign="center" gap="10px">
+              <Text fontSize="2xl">¿Das exámen?</Text>
+              {newColeccion.examen ? (
+                <Nota
+                  key={0}
+                  nombre="Exámen"
+                  id="examen"
+                  nota={newColeccion.examen.nota}
+                  porcentaje={newColeccion.examen.porcentaje}
+                  deleteNota={delNota}
+                  updateNota={updateNota}
+                />
+              ) : (
+                <Button onClick={addExamen}>Agregar exámen</Button>
+              )}
+            </Flex>
+          </>
+        )}
+        {newColeccion && (
+          <>
+            <Box width="100%" mt="2">
+              <Divider />
+            </Box>
+
+            <Stack display="flex" gap="10px" marginTop="20px">
+              <Center gap="10px">
+                <Button colorScheme="green" onClick={onClickSave}>
+                  Guardar colección
+                </Button>
+                <AlertDialogComponent
+                  onConfirm={onDeleteColeccion}
+                  buttonText="Eliminar colección"
+                  confirmText="Eliminar"
+                  description={`¿Deseas eliminar la colección <strong>${newColeccion.nombre}</strong>?`}
+                  title="Eliminar colección"
+                  onConfirmMessage="Colección eliminada con éxito"
+                  onConfirmTitle="Eliminación exitosa"
+                />
+              </Center>
+            </Stack>
+          </>
         )}
       </Card>
       {newColeccion && (
         <Box
           width="100%"
-          position="absolute"
+          position="fixed"
           bottom="0"
           left="0"
           bgColor={colors.gray}
@@ -231,7 +291,7 @@ function FormPromedio({ coleccion, clearSelected }) {
                 }
                 fontSize="2xl"
               >
-                {newColeccion?.promedioParcial}
+                {newColeccion?.promedioParcial?.toFixed(2)}
               </Badge>
             </Flex>
             {newColeccion?.examen && (
@@ -246,7 +306,7 @@ function FormPromedio({ coleccion, clearSelected }) {
                   }
                   fontSize="2xl"
                 >
-                  {newColeccion?.promedioFinal}
+                  {newColeccion?.promedioFinal?.toFixed(2)}
                 </Badge>
               </Flex>
             )}
