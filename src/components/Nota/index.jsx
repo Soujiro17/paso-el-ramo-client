@@ -17,7 +17,6 @@ function Nota({ nombre, index, id, nota, porcentaje, deleteNota, updateNota }) {
         name="nombre"
         maxLength={30}
         onChange={(e) => updateNota(e, id)}
-        fontSize=""
         width="120px"
       />
       <Input

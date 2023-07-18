@@ -18,4 +18,5 @@ export default {
     hover: "#6ea8fe",
   },
   gray: "rgba(200, 200, 200, 0.3)",
+  gray2: "rgba(200, 200, 200, 0.7)",
 };
