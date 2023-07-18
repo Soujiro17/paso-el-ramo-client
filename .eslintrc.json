@@ -43,6 +43,6 @@
     "react/forbid-prop-types": ["off"],
     "prettier/prettier": ["off"],
     "no-shadow": "off",
-    "no-console": ["error"],
+    "no-console": ["error"]
   }
 }

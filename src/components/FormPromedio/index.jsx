@@ -1,79 +1,141 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect } from "react";
-import { useState } from "react";
+import {
+  Box,
+  Button,
+  Card,
+  Input,
+  InputGroup,
+  InputRightElement,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
+import useAuth from "../../hooks/useAuth";
 
-function FormPromedio() {
-  const [notas, setNotas] = useState([]);
+function FormPromedio({ coleccion, clearSelected }) {
+  const [newColeccion, setNewColeccion] = useState({});
   const [promedio, setPromedio] = useState(0);
 
+  const { updateColeccion } = useAuth();
+
   const addNota = () =>
-    setNotas((prev) => [
+    setNewColeccion((prev) => ({
       ...prev,
-      {
-        id: uuidv4(),
-        nota: "",
-        porcentaje: "",
-      },
-    ]);
+      notas: [
+        ...prev.notas,
+        {
+          id: uuidv4(),
+          nombre: `Nota ${newColeccion.notas.length}`,
+          nota: "",
+          porcentaje: "",
+        },
+      ],
+    }));
 
   const delNota = (id) =>
-    setNotas((prev) => prev.filter((nota) => nota.id !== id));
+    setNewColeccion((prev) => ({
+      ...prev,
+      notas: newColeccion.notas.filter((nota) => nota.id !== id),
+    }));
 
   const updateNota = (ev, id) =>
-    setNotas((prev) =>
-      prev.map((nota) => {
+    setNewColeccion((prev) => ({
+      ...prev,
+      notas: newColeccion.map((nota) => {
         if (nota.id === id)
-          return {
-            ...nota,
-            [ev.target.name]: ev.target.value,
-          };
+          return { ...nota, [ev.target.name]: ev.target.value };
 
         return nota;
-      })
-    );
+      }),
+    }));
 
   const calcularPromedio = () => {
-    const notasPonderadas = notas.reduce(
+    const notasPonderadas = newColeccion.notas?.reduce(
       (a, b) => a + b.nota * (b.porcentaje / 100),
       0
     );
 
-    setPromedio(notasPonderadas / (notas.length || 1));
+    setPromedio(notasPonderadas / (newColeccion.notas?.length || 1));
+  };
+
+  const onClickSave = () => {
+    toast.success("Colección salvada con éxito");
+    clearSelected();
+    updateColeccion({ id: newColeccion.id, values: newColeccion });
+    setNewColeccion({});
   };
 
   useEffect(() => {
     calcularPromedio();
-  }, [notas, calcularPromedio]);
+  }, [newColeccion.notas, calcularPromedio]);
+
+  useEffect(() => {
+    if (coleccion) {
+      setNewColeccion(coleccion);
+    }
+  }, [coleccion]);
 
   return (
-    <div>
-      {notas.map(({ id, nota, porcentaje }, index) => (
-        <div key={nota.id}>
-          <label htmlFor={`nota${id}`}>Nota {index + 1}</label>
-          <input
-            type="number"
-            min={0}
-            name="nota"
-            value={nota}
-            onChange={(e) => updateNota(e, id)}
-          />
-          <input
-            type="number"
-            min={0}
-            max={100}
-            name="porcentaje"
-            value={porcentaje}
-            onChange={(e) => updateNota(e, id)}
-          />
-          <button onClick={() => delNota(id)}>Eliminar nota</button>
-        </div>
-      ))}
-      <button onClick={addNota}>Añadir nota</button>
-      <br />
-      <div>Promedio: {promedio}</div>
-      {JSON.stringify(notas)}
-    </div>
+    <Card gap="10px" alignItems="center" padding="12">
+      {newColeccion.nombre && <Text>Editando {newColeccion.nombre}...</Text>}
+      {newColeccion.notas?.length > 0 ? (
+        newColeccion.notas.map(({ id, nota, porcentaje, nombre }, index) => (
+          <Stack flexDirection="row" alignItems="center" key={id}>
+            <Text>{nombre || `Nota ${index}`}</Text>
+            <Input
+              type="number"
+              min={0}
+              name="nota"
+              value={nota}
+              onChange={(e) => updateNota(e, id)}
+              placeholder="Nota"
+              width="150px"
+            />
+            <InputGroup width="150px">
+              <Input
+                type="number"
+                min={0}
+                max={100}
+                name="porcentaje"
+                value={porcentaje}
+                onChange={(e) => updateNota(e, id)}
+                placeholder="Porcentaje"
+              />
+              <InputRightElement>%</InputRightElement>
+            </InputGroup>
+            <Button colorScheme="red" onClick={() => delNota(id)}>
+              Eliminar nota
+            </Button>
+          </Stack>
+        ))
+      ) : (
+        <Text>No hay notas en esta colección</Text>
+      )}
+
+      {newColeccion && (
+        <Box
+          display="flex"
+          gap="10px"
+          marginTop="50px"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Button colorScheme="green" onClick={addNota}>
+            Añadir nota
+          </Button>
+          <Button colorScheme="blue" onClick={onClickSave}>
+            Guardar colección
+          </Button>
+        </Box>
+      )}
+      {/* <br /> */}
+      {/* <div>Promedio: {promedio}</div> */}
+      {/* {JSON.stringify(notas)} */}
+    </Card>
   );
 }
 
