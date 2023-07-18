@@ -9,3 +9,5 @@
 - <input type="checkbox"> Permitir compartir colecciones (?)
 
 - <input type="checkbox"> Agregar mínimo / máximo de nota, además de mínimo para aprobación o mínimo para exámen
+
+- <input type="checkbox"> Agregar hovers a las colecciones
