@@ -1,4 +1,4 @@
-import { Button } from "@chakra-ui/react";
+import { Button, IconButton, useToast } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/hooks";
 import {
   AlertDialog,
@@ -17,15 +17,36 @@ function AlertDialogComponent({
   confirmText = "Confirmar",
   cancelText = "Cancelar",
   buttonText = "",
+  iconButton = false,
+  buttonScheme = "red",
+  buttonSize = "",
+  icon,
+  zIndexButton,
+  onConfirmMessage,
+  onConfirmTitle,
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef();
 
+  const toast = useToast();
+
   return (
     <>
-      <Button colorScheme="red" onClick={onOpen}>
-        {buttonText}
-      </Button>
+      {iconButton ? (
+        <IconButton
+          position="relative"
+          zIndex={zIndexButton}
+          size={buttonSize}
+          colorScheme={buttonScheme}
+          onClick={onOpen}
+          icon={icon}
+        />
+      ) : (
+        <Button colorScheme="red" onClick={onOpen}>
+          {buttonText}
+        </Button>
+      )}
+
       <AlertDialog
         isOpen={isOpen}
         leastDestructiveRef={cancelRef}
@@ -45,7 +66,18 @@ function AlertDialogComponent({
               <Button ref={cancelRef} onClick={onClose}>
                 {cancelText}
               </Button>
-              <Button colorScheme="red" onClick={onConfirm} ml={3}>
+              <Button
+                colorScheme="red"
+                onClick={() => {
+                  onConfirm();
+                  toast({
+                    status: "success",
+                    title: onConfirmTitle,
+                    description: onConfirmMessage,
+                  });
+                }}
+                ml={3}
+              >
                 {confirmText}
               </Button>
             </AlertDialogFooter>

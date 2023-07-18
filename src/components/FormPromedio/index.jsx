@@ -35,7 +35,7 @@ function FormPromedio({ coleccion, clearSelected }) {
         ...prev.notas,
         {
           id: uuidv4(),
-          nombre: `Nota ${newColeccion.notas.length}`,
+          nombre: `Nota ${newColeccion.notas.length + 1}`,
           nota: "",
           porcentaje: "",
         },
@@ -72,10 +72,6 @@ function FormPromedio({ coleccion, clearSelected }) {
     setNewColeccion((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
   const onDeleteColeccion = () => {
-    toast({
-      status: "success",
-      description: "Colección eliminada con éxito",
-    });
     removeColeccion(newColeccion.id);
     setNewColeccion(null);
   };
@@ -133,7 +129,7 @@ function FormPromedio({ coleccion, clearSelected }) {
 
   return (
     <Card gap="10px" alignItems="center" padding="12" width="50%">
-      {newColeccion?.nombre && (
+      {newColeccion && (
         <Box
           width="100%"
           display="flex"
@@ -160,6 +156,7 @@ function FormPromedio({ coleccion, clearSelected }) {
               name="nombre"
               maxLength={30}
               onChange={onEditColeccion}
+              defaultValue="Colección sin nombre *"
               badge
             />
           </Box>
@@ -170,11 +167,11 @@ function FormPromedio({ coleccion, clearSelected }) {
       {contentToRender}
       {newColeccion && (
         <Stack display="flex" gap="10px" marginTop="50px">
-          <Button colorScheme="green" onClick={addNota}>
+          <Button colorScheme="blue" onClick={addNota}>
             Añadir nota
           </Button>
           <Center gap="10px">
-            <Button colorScheme="blue" onClick={onClickSave}>
+            <Button colorScheme="green" onClick={onClickSave}>
               Guardar colección
             </Button>
             <AlertDialogComponent
@@ -183,6 +180,8 @@ function FormPromedio({ coleccion, clearSelected }) {
               confirmText="Eliminar"
               description={`¿Deseas eliminar la colección <strong>${newColeccion.nombre}</strong>?`}
               title="Eliminar colección"
+              onConfirmMessage="Colección eliminada con éxito"
+              onConfirmTitle="Eliminación exitosa"
             />
           </Center>
         </Stack>

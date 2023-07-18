@@ -6,14 +6,23 @@ import {
   useEditableControls,
 } from "@chakra-ui/editable";
 import { CheckIcon, CloseIcon, EditIcon } from "@chakra-ui/icons";
+import { useEffect, useState } from "react";
 
-function EditableControls() {
+function EditableControls({ setIsEditing }) {
   const {
     isEditing,
     getSubmitButtonProps,
     getCancelButtonProps,
     getEditButtonProps,
   } = useEditableControls();
+
+  useEffect(() => {
+    if (isEditing) {
+      setIsEditing(true);
+    } else {
+      setIsEditing(false);
+    }
+  }, [isEditing, setIsEditing]);
 
   return isEditing ? (
     <ButtonGroup justifyContent="center" size="sm">
@@ -35,8 +44,9 @@ function CustomEditable({
   fontSize = "2xl",
   maxLength,
   width,
+  defaultValue,
 }) {
-  /* Here's a custom control */
+  const [isEditing, setIsEditing] = useState(false);
 
   const content = (
     <EditablePreview
@@ -51,8 +61,8 @@ function CustomEditable({
   return (
     <Editable
       textAlign="center"
-      value={value}
       fontSize={fontSize}
+      value={isEditing ? value : value || defaultValue}
       isPreviewFocusable={false}
       display="flex"
       alignItems="center"
@@ -72,12 +82,14 @@ function CustomEditable({
       )}
       {/* Here is the custom input */}
       <EditableInput
+        type="text"
         width="100%"
         name={name}
+        value={isEditing ? value : value || defaultValue}
         onChange={onChange}
         maxLength={maxLength}
       />
-      <EditableControls />
+      <EditableControls setIsEditing={setIsEditing} />
     </Editable>
   );
 }

@@ -1,17 +1,19 @@
 import {
-  Button,
+  IconButton,
   Input,
   InputGroup,
   InputRightElement,
   Stack,
 } from "@chakra-ui/react";
+import { CloseIcon } from "@chakra-ui/icons";
 import CustomEditable from "../CustomEditable";
 
 function Nota({ nombre, index, id, onChange, nota, porcentaje, deleteNota }) {
   return (
     <Stack flexDirection="row" alignItems="center">
       <CustomEditable
-        value={nombre || `Nota ${index}`}
+        value={nombre}
+        defaultValue={`Nota ${index}`}
         name="nombre"
         maxLength={30}
         onChange={onChange}
@@ -39,9 +41,11 @@ function Nota({ nombre, index, id, onChange, nota, porcentaje, deleteNota }) {
         />
         <InputRightElement>%</InputRightElement>
       </InputGroup>
-      <Button colorScheme="red" onClick={() => deleteNota(id)}>
-        Eliminar nota
-      </Button>
+      <IconButton
+        colorScheme="red"
+        onClick={() => deleteNota(id)}
+        icon={<CloseIcon />}
+      />
     </Stack>
   );
 }

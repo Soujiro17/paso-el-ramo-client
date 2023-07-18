@@ -4,6 +4,7 @@ export default {
   nombre: "Nueva colección",
   notas: [
     {
+      nombre: "Nota 1",
       id: uuidv4(),
       nota: "",
       porcentaje: "",
