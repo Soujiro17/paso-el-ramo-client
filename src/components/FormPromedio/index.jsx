@@ -205,7 +205,7 @@ function FormPromedio({ coleccion, clearSelected }) {
               color={colors.gray2}
               className="nota-container"
             >
-              <Text width="120px" />
+              <Text width="120px" className="nota-nombre custom-label-nombre" />
               <Text width="150px" className="input-nota">
                 Nota
               </Text>

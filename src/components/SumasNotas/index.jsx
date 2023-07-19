@@ -6,7 +6,9 @@ import colors from "../../lib/colors";
 function SumasNotas({ coleccion }) {
   return (
     <Center textAlign="center" color={colors.gray2} className="nota-container">
-      <Text width="120px">Sumas</Text>
+      <Text width="120px" className="nota-nombre custom-label-nombre">
+        Sumas
+      </Text>
       <Text width="150px" className="input-nota">
         {coleccion.notas.reduce((a, b) => a + Number(b.nota), 0)}
       </Text>

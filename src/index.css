@@ -28,6 +28,9 @@ html {
 }
 
 @media only screen and (max-width: 1250px) {
+  .main-container {
+    padding-bottom: 100px !important;
+  }
   .notas-container {
     width: 100% !important;
   }
@@ -56,6 +59,7 @@ html {
   .input-porcentaje {
     width: 75px !important;
     min-width: 75px !important;
+    font-size: 13px !important;
   }
 
   .input-porcentaje input {
@@ -83,6 +87,10 @@ html {
   .nota-nombre {
     width: 100px !important;
     font-size: 14px !important;
+  }
+
+  .custom-label-nombre {
+    width: 50px !important;
   }
 
   .resumen-container,
@@ -137,5 +145,9 @@ html {
   .coleccion-header,
   .coleccion-nombre-badge {
     font-size: 12px !important;
+  }
+
+  .custom-label-nombre {
+    width: 50px !important;
   }
 }

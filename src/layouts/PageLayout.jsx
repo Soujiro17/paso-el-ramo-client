@@ -15,7 +15,7 @@ function PageLayout({
         <meta name="description" content={description} />
       </Helmet>
       <Header />
-      <Box minHeight="93vh" pb="150px">
+      <Box minHeight="93vh" pb="150px" className="main-container">
         {children}
       </Box>
     </>
