@@ -15,6 +15,7 @@ function Nota({ nombre, index, id, nota, porcentaje, deleteNota, updateNota }) {
         value={nombre}
         defaultValue={`Nota ${index}`}
         name="nombre"
+        fontSize="inherit"
         maxLength={30}
         onChange={(e) => updateNota(e, id)}
         width="120px"
