@@ -1,15 +1,21 @@
 import React from "react";
-import { Badge, Box, Flex } from "@chakra-ui/react";
+import { Badge, Box, Flex, useColorMode } from "@chakra-ui/react";
 import colors from "../../lib/colors";
 
 function ResumenColeccion({ coleccion }) {
+  const { colorMode } = useColorMode();
+
   return (
     <Box
       width="100%"
       position="fixed"
       bottom="0"
       left="0"
-      bgColor={colors.gray}
+      borderTop="1px"
+      borderBlockEndStyle="solid"
+      borderColor={colorMode === "light" ? "#171923" : colors.white}
+      bgColor={colorMode === "light" ? colors.white : "#171923"}
+      className="resumen-wrapper"
     >
       <Flex
         alignItems="center"

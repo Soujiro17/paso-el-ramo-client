@@ -15,7 +15,7 @@ import {
   useColorMode,
   Center,
   Image,
-  Text,
+  // Text,
   Input,
   FormLabel,
   InputGroup,
@@ -63,7 +63,7 @@ function Header() {
               }
               alt="logo"
             />
-            <Text>MIS NOTAS</Text>
+            {/* <Text>MIS NOTAS</Text> */}
           </Box>
         </LinkRouter>
         {/* <Flex>

@@ -27,47 +27,23 @@ html {
   background: #555;
 }
 
-@media only screen and (max-width: 400px) {
-  .nota-nombre {
-    width: 100px !important;
-    font-size: 11px !important;
-  }
-
-  .coleccion-header,
-  .coleccion-nombre-badge {
-    font-size: 12px !important;
-  }
-}
-
-@media only screen and (max-width: 450px) {
+@media only screen and (max-width: 1250px) {
   .notas-container {
-    padding: 0.5rem !important;
-  }
-
-  .nota-container {
-    gap: 0.2rem !important;
-  }
-
-  .coleccion-header,
-  .coleccion-nombre-badge {
-    font-size: 12px !important;
-  }
-
-  .delete-nota {
-    height: 30px !important;
-    width: 30px !important;
-    min-width: 30px !important;
-    min-height: 0 !important;
-  }
-
-  .delete-nota-icon {
-    height: 10px !important;
-    width: 10px !important;
-  }
-
-  .mutate-buttons button {
     width: 100% !important;
-    font-size: 16px !important;
+  }
+
+  .colecciones-container {
+    flex-wrap: nowrap !important;
+    justify-content: flex-start !important;
+    scroll-snap-type: x mandatory;
+    overflow: hidden;
+    overflow-x: scroll;
+    position: relative;
+  }
+
+  .coleccion-item {
+    scroll-snap-align: center;
+    position: sticky;
   }
 }
 
@@ -120,22 +96,46 @@ html {
   }
 }
 
-@media only screen and (max-width: 1250px) {
+@media only screen and (max-width: 450px) {
   .notas-container {
+    padding: 0.5rem !important;
+  }
+
+  .nota-container {
+    gap: 0.2rem !important;
+  }
+
+  .coleccion-header,
+  .coleccion-nombre-badge {
+    font-size: 12px !important;
+  }
+
+  .delete-nota {
+    height: 30px !important;
+    width: 30px !important;
+    min-width: 30px !important;
+    min-height: 0 !important;
+  }
+
+  .delete-nota-icon {
+    height: 10px !important;
+    width: 10px !important;
+  }
+
+  .mutate-buttons button {
     width: 100% !important;
+    font-size: 16px !important;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .nota-nombre {
+    width: 100px !important;
+    font-size: 11px !important;
   }
 
-  .colecciones-container {
-    flex-wrap: nowrap !important;
-    justify-content: flex-start !important;
-    scroll-snap-type: x mandatory;
-    overflow: hidden;
-    overflow-x: scroll;
-    position: relative;
-  }
-
-  .coleccion-item {
-    scroll-snap-align: center;
-    position: sticky;
+  .coleccion-header,
+  .coleccion-nombre-badge {
+    font-size: 12px !important;
   }
 }
