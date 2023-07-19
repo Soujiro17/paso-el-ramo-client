@@ -1,7 +1,7 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import { Box } from "@chakra-ui/layout";
-// import Header from "../components/Header";
+import Header from "../components/Header";
 
 function PageLayout({
   children,
@@ -14,7 +14,7 @@ function PageLayout({
         <title>{title}</title>
         <meta name="description" content={description} />
       </Helmet>
-      {/* <Header /> */}
+      <Header />
       <Box minHeight="93vh" pb="150px">
         {children}
       </Box>

@@ -2,7 +2,7 @@ import {
   Box,
   Flex,
   Avatar,
-  Link,
+  // Link,
   Button,
   Menu,
   MenuButton,
@@ -24,23 +24,23 @@ import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { Link as LinkRouter } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 
-function NavLink({ children, href = "" }) {
-  return (
-    <Link
-      as={LinkRouter}
-      px={2}
-      py={1}
-      rounded="md"
-      _hover={{
-        textDecoration: "none",
-        bg: useColorModeValue("gray.200", "gray.700"),
-      }}
-      to={href}
-    >
-      {children}
-    </Link>
-  );
-}
+// function NavLink({ children, href = "" }) {
+//   return (
+//     <Link
+//       as={LinkRouter}
+//       px={2}
+//       py={1}
+//       rounded="md"
+//       _hover={{
+//         textDecoration: "none",
+//         bg: useColorModeValue("gray.200", "gray.700"),
+//       }}
+//       to={href}
+//     >
+//       {children}
+//     </Link>
+//   );
+// }
 
 function Header() {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -66,11 +66,11 @@ function Header() {
             <Text>MIS NOTAS</Text>
           </Box>
         </LinkRouter>
-        <Flex>
+        {/* <Flex>
           <NavLink href="/">Inicio</NavLink>
           <NavLink href="/instrucciones">Instrucciones</NavLink>
           <NavLink href="/contacto">Contacto</NavLink>
-        </Flex>
+        </Flex> */}
         <Flex alignItems="center">
           <Stack direction="row" spacing={7}>
             <Button onClick={toggleColorMode}>
