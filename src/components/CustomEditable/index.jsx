@@ -45,6 +45,7 @@ function CustomEditable({
   maxLength,
   width,
   defaultValue,
+  className,
 }) {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -67,6 +68,7 @@ function CustomEditable({
       display="flex"
       alignItems="center"
       gap="10px"
+      className={className}
     >
       {badge ? (
         <Badge
@@ -74,6 +76,7 @@ function CustomEditable({
           alignItems="center"
           justifyContent="center"
           fontSize={fontSize}
+          className="coleccion-nombre-badge"
         >
           {content}
         </Badge>

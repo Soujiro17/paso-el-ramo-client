@@ -50,8 +50,8 @@ function MutateColeccion({
         <Divider />
       </Box>
 
-      <Stack display="flex" gap="10px" marginTop="20px">
-        <Center gap="10px">
+      <Stack display="flex" gap="10px" marginTop="20px" width="100%">
+        <Center gap="10px" className="mutate-buttons">
           <Button colorScheme="green" onClick={saveColeccion}>
             Guardar colección
           </Button>

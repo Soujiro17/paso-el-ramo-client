@@ -18,6 +18,7 @@ function ResumenColeccion({ coleccion }) {
         gap="15px"
         p="2"
         fontSize="2xl"
+        className="resumen-container"
       >
         <Flex flexDirection="column" textAlign="center">
           Promedio parcial
@@ -28,6 +29,7 @@ function ResumenColeccion({ coleccion }) {
                 : "green"
             }
             fontSize="2xl"
+            className="resumen-badge"
           >
             {coleccion?.promedioParcial?.toFixed(2)}
           </Badge>
@@ -42,6 +44,7 @@ function ResumenColeccion({ coleccion }) {
                   : "green"
               }
               fontSize="2xl"
+              className="resumen-badge"
             >
               {coleccion?.promedioFinal?.toFixed(2)}
             </Badge>

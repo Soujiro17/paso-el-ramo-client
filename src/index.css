@@ -27,6 +27,98 @@ html {
   background: #555;
 }
 
+@media only screen and (max-width: 400px) {
+  .nota-nombre {
+    width: 100px !important;
+    font-size: 11px !important;
+  }
+
+  .coleccion-header,
+  .coleccion-nombre-badge {
+    font-size: 12px !important;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .notas-container {
+    padding: 0.5rem !important;
+  }
+
+  .nota-container {
+    gap: 0.2rem !important;
+  }
+
+  .coleccion-header,
+  .coleccion-nombre-badge {
+    font-size: 14px !important;
+  }
+
+  .delete-nota {
+    height: 30px !important;
+    width: 30px !important;
+    min-width: 30px !important;
+    min-height: 0 !important;
+  }
+
+  .delete-nota-icon {
+    height: 10px !important;
+    width: 10px !important;
+  }
+
+  .mutate-buttons button {
+    width: 100% !important;
+    font-size: 16px !important;
+  }
+}
+
+@media only screen and (max-width: 714px) {
+  .notas-container {
+    padding: 1rem !important;
+  }
+
+  .input-nota,
+  .input-porcentaje {
+    width: 75px !important;
+    min-width: 75px !important;
+  }
+
+  .input-porcentaje input {
+    padding-right: 0 !important;
+    width: 70px !important;
+    min-width: 70px !important;
+  }
+
+  .input-porcentaje-right {
+    right: 5px !important;
+  }
+
+  .nota-container {
+    width: 100% !important;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem !important;
+  }
+
+  .coleccion-header,
+  .coleccion-nombre-badge {
+    font-size: 16px !important;
+  }
+
+  .nota-nombre {
+    width: 100px !important;
+    font-size: 14px !important;
+  }
+
+  .resumen-container,
+  .resumen-badge {
+    font-size: 16px !important;
+  }
+
+  .seleccionar-coleccion {
+    font-size: 16px !important;
+  }
+}
+
 @media only screen and (max-width: 1250px) {
   .notas-container {
     width: 100% !important;
@@ -42,7 +134,7 @@ html {
   }
 
   .coleccion-item {
-    scroll-snap-align: start;
+    scroll-snap-align: center;
     position: sticky;
   }
 }

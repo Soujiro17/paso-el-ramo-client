@@ -5,12 +5,12 @@ import colors from "../../lib/colors";
 
 function SumasNotas({ coleccion }) {
   return (
-    <Center textAlign="center" color={colors.gray2}>
+    <Center textAlign="center" color={colors.gray2} className="nota-container">
       <Text width="120px">Sumas</Text>
-      <Text width="150px">
+      <Text width="150px" className="input-nota">
         {coleccion.notas.reduce((a, b) => a + Number(b.nota), 0)}
       </Text>
-      <Text width="150px">
+      <Text width="150px" className="input-porcentaje">
         {coleccion.notas.reduce((a, b) => a + Number(b.porcentaje), 0) / 100}%
       </Text>
     </Center>

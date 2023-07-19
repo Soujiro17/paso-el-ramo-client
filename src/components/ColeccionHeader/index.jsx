@@ -29,6 +29,7 @@ function ColeccionHeader({ coleccion, updateColeccion }) {
         gap="10px"
         fontSize="2xl"
         position="relative"
+        className="coleccion-header"
       >
         Editando{" "}
         <CustomEditable

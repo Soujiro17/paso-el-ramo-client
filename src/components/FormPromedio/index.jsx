@@ -143,7 +143,7 @@ function FormPromedio({ coleccion, clearSelected }) {
 
   if (!newColeccion)
     contentToRender = (
-      <Text fontSize="2xl">
+      <Text fontSize="2xl" className="seleccionar-coleccion">
         <Highlight
           query="Selecciona"
           styles={{ px: "2", py: "1", rounded: "full", bg: "red.100" }}
