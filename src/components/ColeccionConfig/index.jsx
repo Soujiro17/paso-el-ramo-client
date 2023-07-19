@@ -1,7 +1,6 @@
 import {
   Box,
   Center,
-  Divider,
   FormLabel,
   Input,
   InputGroup,
@@ -12,12 +11,12 @@ import React from "react";
 function ColeccionConfig({ openSettings, coleccion, updateColeccion }) {
   return (
     <Box
-      maxHeight={openSettings ? "200px" : 0}
+      maxHeight={openSettings ? "250px" : 0}
       overflow="hidden"
       transition="all"
       transitionDuration="1s"
+      className="config-container"
     >
-      <Divider />
       <Text fontSize="xl" textAlign="center" textTransform="uppercase">
         Configuración de la colección
       </Text>
@@ -29,8 +28,14 @@ function ColeccionConfig({ openSettings, coleccion, updateColeccion }) {
         justifyContent="center"
         gap="20px"
       >
-        <InputGroup width="50%">
-          <FormLabel display="flex" alignItems="center" width="50%" margin={0}>
+        <InputGroup width="50%" className="config-inputgroup-container">
+          <FormLabel
+            display="flex"
+            alignItems="center"
+            width="50%"
+            margin={0}
+            className="config-label"
+          >
             Nota mínima:
           </FormLabel>
           <Input
@@ -41,8 +46,14 @@ function ColeccionConfig({ openSettings, coleccion, updateColeccion }) {
             value={coleccion.notaMinima}
           />
         </InputGroup>
-        <InputGroup width="50%">
-          <FormLabel display="flex" alignItems="center" width="50%" margin={0}>
+        <InputGroup width="50%" className="config-inputgroup-container">
+          <FormLabel
+            display="flex"
+            alignItems="center"
+            width="50%"
+            margin={0}
+            className="config-label"
+          >
             Nota máxima:
           </FormLabel>
           <Input
@@ -53,13 +64,14 @@ function ColeccionConfig({ openSettings, coleccion, updateColeccion }) {
             value={coleccion.notaMaxima}
           />
         </InputGroup>
-        <InputGroup width="50%">
+        <InputGroup width="50%" className="config-inputgroup-container">
           <FormLabel
             display="flex"
             alignItems="center"
             whiteSpace="pre-wrap"
             width="50%"
             margin={0}
+            className="config-label"
           >
             Nota mínima de aprobación:
           </FormLabel>
