@@ -19,16 +19,17 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { SettingsIcon } from "@chakra-ui/icons";
 import useAuth from "../../hooks/useAuth";
 import Nota from "../Nota";
 import AlertDialogComponent from "../AlertDialog";
-import CustomEditable from "../CustomEditable";
 import colors from "../../lib/colors";
+import ColeccionHeader from "../ColeccionHeader";
+import SumasNotas from "../SumasNotas";
+import MutateColeccion from "../MutateColeccion";
+import ResumenColeccion from "../ResumenColeccion";
 
 function FormPromedio({ coleccion, clearSelected }) {
   const [newColeccion, setNewColeccion] = useState(null);
-  const [openSettings, setOpenSettings] = useState(false);
 
   const toast = useToast();
 
@@ -48,20 +49,7 @@ function FormPromedio({ coleccion, clearSelected }) {
       ],
     }));
 
-  const handleSettings = () => setOpenSettings(!openSettings);
-
-  const addExamen = () =>
-    setNewColeccion((prev) => ({
-      ...prev,
-      examen: {
-        id: uuidv4(),
-        nombre: "Exámen",
-        nota: "",
-        porcentaje: "",
-      },
-    }));
-
-  const delNota = (id) => {
+  const deleteNota = (id) => {
     if (id === "examen") {
       setNewColeccion((prev) => ({
         ...prev,
@@ -99,7 +87,21 @@ function FormPromedio({ coleccion, clearSelected }) {
   };
 
   const updateNewColeccion = (ev) =>
-    setNewColeccion((prev) => ({ ...prev, [ev.target.name]: ev.target.value }));
+    setNewColeccion((prev) => ({
+      ...prev,
+      [ev.target.name]: ev.target.value,
+    }));
+
+  const addExamen = () =>
+    setNewColeccion((prev) => ({
+      ...prev,
+      examen: {
+        id: uuidv4(),
+        nombre: "Exámen",
+        nota: "",
+        porcentaje: "",
+      },
+    }));
 
   const calcularPromedioParcial = () => {
     const notasPonderadas = newColeccion?.notas?.reduce(
@@ -122,15 +124,12 @@ function FormPromedio({ coleccion, clearSelected }) {
     }));
   };
 
-  const onEditColeccion = (e) =>
-    setNewColeccion((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-
-  const onDeleteColeccion = () => {
+  const deleteColeccion = () => {
     removeColeccion(newColeccion.id);
     setNewColeccion(null);
   };
 
-  const onClickSave = () => {
+  const saveColeccion = () => {
     toast({
       status: "success",
       description: "Colección guardada con éxito",
@@ -167,7 +166,7 @@ function FormPromedio({ coleccion, clearSelected }) {
           nombre={nombre}
           nota={nota}
           porcentaje={porcentaje}
-          deleteNota={delNota}
+          deleteNota={deleteNota}
           updateNota={updateNota}
         />
       )
@@ -190,233 +189,28 @@ function FormPromedio({ coleccion, clearSelected }) {
     <>
       <Card gap="10px" alignItems="center" padding="12" width="50%">
         {newColeccion && (
-          <Box
-            width="100%"
-            display="flex"
-            gap="10px"
-            flexDirection="column"
-            maxWidth="100%"
-            overflow="hidden"
-            textOverflow="ellipsis"
-            whiteSpace="nowrap"
-            wordBreak="break-all"
-            mb="2"
-          >
-            <Box
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-              gap="10px"
-              fontSize="2xl"
-              position="relative"
-            >
-              Editando{" "}
-              <CustomEditable
-                value={newColeccion?.nombre}
-                name="nombre"
-                maxLength={30}
-                onChange={onEditColeccion}
-                defaultValue="Colección sin nombre *"
-                badge
-              />
-              <SettingsIcon
-                position="absolute"
-                right="0"
-                cursor="pointer"
-                onClick={handleSettings}
-              />
-            </Box>
-            <Box
-              maxHeight={openSettings ? "200px" : 0}
-              overflow="hidden"
-              transition="all"
-              transitionDuration="1s"
-            >
-              <Divider />
-              <Text fontSize="xl" textAlign="center" textTransform="uppercase">
-                Configuración de la colección
-              </Text>
-
-              <Center
-                width="100%"
-                flexDirection="column"
-                alignItems="center"
-                justifyContent="center"
-                gap="20px"
-              >
-                <InputGroup width="50%">
-                  <FormLabel
-                    display="flex"
-                    alignItems="center"
-                    width="50%"
-                    margin={0}
-                  >
-                    Nota mínima:
-                  </FormLabel>
-                  <Input
-                    width="150px"
-                    name="notaMinima"
-                    type="number"
-                    onChange={updateNewColeccion}
-                    value={newColeccion.notaMinima}
-                  />
-                </InputGroup>
-                <InputGroup width="50%">
-                  <FormLabel
-                    display="flex"
-                    alignItems="center"
-                    width="50%"
-                    margin={0}
-                  >
-                    Nota máxima:
-                  </FormLabel>
-                  <Input
-                    width="150px"
-                    name="notaMaxima"
-                    type="number"
-                    onChange={updateNewColeccion}
-                    value={newColeccion.notaMaxima}
-                  />
-                </InputGroup>
-                <InputGroup width="50%">
-                  <FormLabel
-                    display="flex"
-                    alignItems="center"
-                    whiteSpace="pre-wrap"
-                    width="50%"
-                    margin={0}
-                  >
-                    Nota mínima de aprobación:
-                  </FormLabel>
-                  <Input
-                    width="150px"
-                    name="notaMinimaAprobacion"
-                    type="number"
-                    onChange={updateNewColeccion}
-                    value={newColeccion.notaMinimaAprobacion}
-                  />
-                </InputGroup>
-              </Center>
-            </Box>
-            <Divider />
-          </Box>
+          <ColeccionHeader
+            coleccion={newColeccion}
+            updateColeccion={updateNewColeccion}
+          />
         )}
         {contentToRender}
         {newColeccion && (
           <>
-            <Center textAlign="center" color={colors.gray2}>
-              <Text width="120px">Sumas</Text>
-              <Text width="150px">
-                {newColeccion.notas.reduce((a, b) => a + Number(b.nota), 0)}
-              </Text>
-              <Text width="150px">
-                {newColeccion.notas.reduce(
-                  (a, b) => a + Number(b.porcentaje),
-                  0
-                ) / 100}
-                %
-              </Text>
-            </Center>
-            <Button colorScheme="blue" onClick={addNota}>
-              Añadir nota
-            </Button>
-            <Box width="100%" mt="2">
-              <Divider />
-            </Box>
-            <Flex flexDirection="column" textAlign="center" gap="10px">
-              <Text fontSize="2xl">¿Das exámen?</Text>
-              {newColeccion.examen ? (
-                <Nota
-                  key={0}
-                  nombre="Exámen"
-                  id="examen"
-                  nota={newColeccion.examen.nota}
-                  porcentaje={newColeccion.examen.porcentaje}
-                  deleteNota={delNota}
-                  updateNota={updateNota}
-                  min={newColeccion.notaMinima}
-                  max={newColeccion.notaMaxima}
-                />
-              ) : (
-                <Button onClick={addExamen}>Agregar exámen</Button>
-              )}
-            </Flex>
-          </>
-        )}
-        {newColeccion && (
-          <>
-            <Box width="100%" mt="2">
-              <Divider />
-            </Box>
-
-            <Stack display="flex" gap="10px" marginTop="20px">
-              <Center gap="10px">
-                <Button colorScheme="green" onClick={onClickSave}>
-                  Guardar colección
-                </Button>
-                <AlertDialogComponent
-                  onConfirm={onDeleteColeccion}
-                  buttonText="Eliminar colección"
-                  confirmText="Eliminar"
-                  description={`¿Deseas eliminar la colección <strong>${newColeccion.nombre}</strong>?`}
-                  title="Eliminar colección"
-                  onConfirmMessage="Colección eliminada con éxito"
-                  onConfirmTitle="Eliminación exitosa"
-                />
-              </Center>
-            </Stack>
+            <SumasNotas coleccion={newColeccion} />
+            <MutateColeccion
+              addExamen={addExamen}
+              addNota={addNota}
+              coleccion={newColeccion}
+              deleteNota={deleteNota}
+              updateNota={updateNota}
+              saveColeccion={saveColeccion}
+              deleteColeccion={deleteColeccion}
+            />
           </>
         )}
       </Card>
-      {newColeccion && (
-        <Box
-          width="100%"
-          position="fixed"
-          bottom="0"
-          left="0"
-          bgColor={colors.gray}
-        >
-          <Flex
-            alignItems="center"
-            justifyContent="center"
-            flexDirection="row"
-            gap="15px"
-            p="2"
-            fontSize="2xl"
-          >
-            <Flex flexDirection="column" textAlign="center">
-              Promedio parcial
-              <Badge
-                colorScheme={
-                  newColeccion?.notaMinimaAprobacion >
-                  newColeccion?.promedioParcial
-                    ? "red"
-                    : "green"
-                }
-                fontSize="2xl"
-              >
-                {newColeccion?.promedioParcial?.toFixed(2)}
-              </Badge>
-            </Flex>
-            {newColeccion?.examen && (
-              <Flex flexDirection="column" textAlign="center">
-                Promedio final
-                <Badge
-                  colorScheme={
-                    newColeccion.notaMinimaAprobacion >
-                    newColeccion.promedioFinal
-                      ? "red"
-                      : "green"
-                  }
-                  fontSize="2xl"
-                >
-                  {newColeccion?.promedioFinal?.toFixed(2)}
-                </Badge>
-              </Flex>
-            )}
-          </Flex>
-        </Box>
-      )}
+      {newColeccion && <ResumenColeccion coleccion={newColeccion} />}
     </>
   );
 }
