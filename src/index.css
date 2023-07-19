@@ -64,12 +64,12 @@ html {
 
   .input-porcentaje input {
     padding-right: 0 !important;
-    width: 70px !important;
+    width: 75px !important;
     min-width: 70px !important;
   }
 
   .input-porcentaje-right {
-    right: 5px !important;
+    right: 3px !important;
   }
 
   .nota-container {

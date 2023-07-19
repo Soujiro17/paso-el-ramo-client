@@ -13,7 +13,7 @@ function SumasNotas({ coleccion }) {
         {coleccion.notas.reduce((a, b) => a + Number(b.nota), 0)}
       </Text>
       <Text width="150px" className="input-porcentaje">
-        {coleccion.notas.reduce((a, b) => a + Number(b.porcentaje), 0) / 100}%
+        {coleccion.notas.reduce((a, b) => a + Number(b.porcentaje), 0)}%
       </Text>
     </Center>
   );
