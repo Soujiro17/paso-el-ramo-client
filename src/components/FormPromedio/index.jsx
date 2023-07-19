@@ -187,7 +187,13 @@ function FormPromedio({ coleccion, clearSelected }) {
 
   return (
     <>
-      <Card gap="10px" alignItems="center" padding="12" width="50%">
+      <Card
+        gap="10px"
+        alignItems="center"
+        padding="12"
+        width="50%"
+        className="notas-container"
+      >
         {newColeccion && (
           <ColeccionHeader
             coleccion={newColeccion}

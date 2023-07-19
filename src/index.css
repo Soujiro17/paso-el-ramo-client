@@ -26,3 +26,23 @@ html {
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+@media only screen and (max-width: 1250px) {
+  .notas-container {
+    width: 100% !important;
+  }
+
+  .colecciones-container {
+    flex-wrap: nowrap !important;
+    justify-content: flex-start !important;
+    scroll-snap-type: x mandatory;
+    overflow: hidden;
+    overflow-x: scroll;
+    position: relative;
+  }
+
+  .coleccion-item {
+    scroll-snap-align: start;
+    position: sticky;
+  }
+}

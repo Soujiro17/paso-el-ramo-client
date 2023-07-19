@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, useColorModeValue } from "@chakra-ui/react";
 import useAuth from "../../hooks/useAuth";
 import ColeccionItem from "../ColeccionItem";
 
@@ -13,6 +13,7 @@ function Colecciones({ setSelectedCollection, selectedCollection }) {
       justifyContent="center"
       flexWrap="wrap"
       padding="5"
+      className="colecciones-container"
     >
       {colecciones.map((coleccion) => {
         const isEqual = coleccion.id === selectedCollection?.id;
@@ -33,6 +34,8 @@ function Colecciones({ setSelectedCollection, selectedCollection }) {
         key={0}
         height="150px"
         width="300px"
+        minHeight="150px"
+        minWidth="300px"
         maxW="sm"
         borderWidth="1px"
         borderRadius="lg"
@@ -46,6 +49,8 @@ function Colecciones({ setSelectedCollection, selectedCollection }) {
         alignItems="center"
         justifyContent="center"
         fontSize="6xl"
+        bg={useColorModeValue("gray.100", "gray.1000")}
+        className="coleccion-item"
       >
         +
       </Box>

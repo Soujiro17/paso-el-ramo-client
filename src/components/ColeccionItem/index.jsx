@@ -14,11 +14,14 @@ function ColeccionItem({
     <Box
       height="150px"
       width="300px"
+      minHeight="150px"
+      minWidth="300px"
       maxW="sm"
       borderWidth="1px"
       borderRadius="lg"
       overflow="hidden"
       cursor="pointer"
+      className="coleccion-item"
     >
       <Card height="100%" position="relative">
         <Card position="relative" zIndex="100">
