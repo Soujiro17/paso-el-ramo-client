@@ -8,7 +8,17 @@ import {
 import { CloseIcon } from "@chakra-ui/icons";
 import CustomEditable from "../CustomEditable";
 
-function Nota({ nombre, index, id, nota, porcentaje, deleteNota, updateNota }) {
+function Nota({
+  nombre,
+  index,
+  id,
+  nota,
+  porcentaje,
+  deleteNota,
+  updateNota,
+  notaMinima,
+  notaMaxima,
+}) {
   return (
     <Stack flexDirection="row" alignItems="center">
       <CustomEditable
@@ -22,7 +32,8 @@ function Nota({ nombre, index, id, nota, porcentaje, deleteNota, updateNota }) {
       />
       <Input
         type="number"
-        min={0}
+        min={notaMinima}
+        max={notaMaxima}
         name="nota"
         value={nota}
         onChange={(e) => updateNota(e, id)}

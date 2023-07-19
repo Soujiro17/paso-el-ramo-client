@@ -1,13 +1,12 @@
 import { v4 as uuidv4 } from "uuid";
-import colors from "../lib/colors";
 
 export default [
   {
     id: uuidv4(),
     nombre: "Administración General",
     mismoPorcentaje: false,
-    bgColor: colors.green.normal,
     notaMinimaAprobacion: 40,
+    notaMinima: 10,
     notaMaxima: 70,
     promedioParcial: 0,
     promedioFinal: 0,

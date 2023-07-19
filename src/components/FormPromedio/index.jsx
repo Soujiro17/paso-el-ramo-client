@@ -9,13 +9,17 @@ import {
   Center,
   Divider,
   Flex,
+  FormLabel,
   Highlight,
+  Input,
+  InputGroup,
   Stack,
   Text,
   useToast,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { SettingsIcon } from "@chakra-ui/icons";
 import useAuth from "../../hooks/useAuth";
 import Nota from "../Nota";
 import AlertDialogComponent from "../AlertDialog";
@@ -24,6 +28,7 @@ import colors from "../../lib/colors";
 
 function FormPromedio({ coleccion, clearSelected }) {
   const [newColeccion, setNewColeccion] = useState(null);
+  const [openSettings, setOpenSettings] = useState(false);
 
   const toast = useToast();
 
@@ -42,6 +47,8 @@ function FormPromedio({ coleccion, clearSelected }) {
         },
       ],
     }));
+
+  const handleSettings = () => setOpenSettings(!openSettings);
 
   const addExamen = () =>
     setNewColeccion((prev) => ({
@@ -90,6 +97,9 @@ function FormPromedio({ coleccion, clearSelected }) {
       }),
     }));
   };
+
+  const updateNewColeccion = (ev) =>
+    setNewColeccion((prev) => ({ ...prev, [ev.target.name]: ev.target.value }));
 
   const calcularPromedioParcial = () => {
     const notasPonderadas = newColeccion?.notas?.reduce(
@@ -198,6 +208,7 @@ function FormPromedio({ coleccion, clearSelected }) {
               justifyContent="center"
               gap="10px"
               fontSize="2xl"
+              position="relative"
             >
               Editando{" "}
               <CustomEditable
@@ -208,6 +219,84 @@ function FormPromedio({ coleccion, clearSelected }) {
                 defaultValue="Colección sin nombre *"
                 badge
               />
+              <SettingsIcon
+                position="absolute"
+                right="0"
+                cursor="pointer"
+                onClick={handleSettings}
+              />
+            </Box>
+            <Box
+              maxHeight={openSettings ? "200px" : 0}
+              overflow="hidden"
+              transition="all"
+              transitionDuration="1s"
+            >
+              <Divider />
+              <Text fontSize="xl" textAlign="center" textTransform="uppercase">
+                Configuración de la colección
+              </Text>
+
+              <Center
+                width="100%"
+                flexDirection="column"
+                alignItems="center"
+                justifyContent="center"
+                gap="20px"
+              >
+                <InputGroup width="50%">
+                  <FormLabel
+                    display="flex"
+                    alignItems="center"
+                    width="50%"
+                    margin={0}
+                  >
+                    Nota mínima:
+                  </FormLabel>
+                  <Input
+                    width="150px"
+                    name="notaMinima"
+                    type="number"
+                    onChange={updateNewColeccion}
+                    value={newColeccion.notaMinima}
+                  />
+                </InputGroup>
+                <InputGroup width="50%">
+                  <FormLabel
+                    display="flex"
+                    alignItems="center"
+                    width="50%"
+                    margin={0}
+                  >
+                    Nota máxima:
+                  </FormLabel>
+                  <Input
+                    width="150px"
+                    name="notaMaxima"
+                    type="number"
+                    onChange={updateNewColeccion}
+                    value={newColeccion.notaMaxima}
+                  />
+                </InputGroup>
+                <InputGroup width="50%">
+                  <FormLabel
+                    display="flex"
+                    alignItems="center"
+                    whiteSpace="pre-wrap"
+                    width="50%"
+                    margin={0}
+                  >
+                    Nota mínima de aprobación:
+                  </FormLabel>
+                  <Input
+                    width="150px"
+                    name="notaMinimaAprobacion"
+                    type="number"
+                    onChange={updateNewColeccion}
+                    value={newColeccion.notaMinimaAprobacion}
+                  />
+                </InputGroup>
+              </Center>
             </Box>
             <Divider />
           </Box>
@@ -245,6 +334,8 @@ function FormPromedio({ coleccion, clearSelected }) {
                   porcentaje={newColeccion.examen.porcentaje}
                   deleteNota={delNota}
                   updateNota={updateNota}
+                  min={newColeccion.notaMinima}
+                  max={newColeccion.notaMaxima}
                 />
               ) : (
                 <Button onClick={addExamen}>Agregar exámen</Button>
