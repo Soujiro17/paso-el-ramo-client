@@ -50,7 +50,7 @@ html {
 
   .coleccion-header,
   .coleccion-nombre-badge {
-    font-size: 14px !important;
+    font-size: 12px !important;
   }
 
   .delete-nota {
@@ -116,6 +116,7 @@ html {
 
   .seleccionar-coleccion {
     font-size: 16px !important;
+    text-align: center;
   }
 }
 
