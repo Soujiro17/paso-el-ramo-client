@@ -38,7 +38,6 @@ function Nota({
         name="nota"
         value={nota}
         onChange={(e) => updateNota(e, id)}
-        placeholder="Nota"
         className="input-nota"
         width="150px"
       />
@@ -50,7 +49,6 @@ function Nota({
           name="porcentaje"
           value={porcentaje}
           onChange={(e) => updateNota(e, id)}
-          placeholder="Porcentaje"
         />
         <InputRightElement className="input-porcentaje-right">
           %

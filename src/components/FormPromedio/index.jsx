@@ -195,10 +195,25 @@ function FormPromedio({ coleccion, clearSelected }) {
         className="notas-container"
       >
         {newColeccion && (
-          <ColeccionHeader
-            coleccion={newColeccion}
-            updateColeccion={updateNewColeccion}
-          />
+          <>
+            <ColeccionHeader
+              coleccion={newColeccion}
+              updateColeccion={updateNewColeccion}
+            />
+            <Center
+              textAlign="center"
+              color={colors.gray2}
+              className="nota-container"
+            >
+              <Text width="120px" />
+              <Text width="150px" className="input-nota">
+                Nota
+              </Text>
+              <Text width="150px" className="input-porcentaje">
+                Porcentaje
+              </Text>
+            </Center>
+          </>
         )}
         {contentToRender}
         {newColeccion && (
