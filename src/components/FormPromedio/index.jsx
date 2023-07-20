@@ -1,6 +1,6 @@
 /* eslint-disable no-unsafe-optional-chaining */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Card, Center, Highlight, Text } from "@chakra-ui/react";
+import { Card, Center, Highlight, Text, useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import useAuth from "../../hooks/useAuth";
@@ -14,7 +14,9 @@ import ResumenColeccion from "../ResumenColeccion";
 function FormPromedio({ coleccion, clearSelected }) {
   const [newColeccion, setNewColeccion] = useState(null);
 
-  const { updateColeccion, removeColeccion } = useAuth();
+  const { updateColeccion, removeColeccion, auth } = useAuth();
+
+  const toast = useToast();
 
   const addNota = () =>
     setNewColeccion((prev) => ({
@@ -121,6 +123,17 @@ function FormPromedio({ coleccion, clearSelected }) {
   };
 
   const saveColeccion = async () => {
+    if (!auth) {
+      toast({
+        status: "error",
+        title: "Error al guardar",
+        description:
+          "No puedes guardar una colección sin haber iniciado sesión antes",
+      });
+
+      return;
+    }
+
     const res = await updateColeccion({
       id: newColeccion.id,
       values: newColeccion,

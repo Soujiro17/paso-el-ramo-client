@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import { createContext, useState, useMemo, useEffect } from "react";
@@ -93,7 +94,7 @@ function AuthProvider({ children }) {
     usePrivateQuery({
       queryKey: ["colecciones"],
       queryFn: getColecciones,
-      onSuccess: (data) => setColecciones(data),
+      onSuccess: (data) => setColecciones((prev) => [...prev, data]),
       enabled: false,
     });
 
