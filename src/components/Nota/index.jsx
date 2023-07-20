@@ -30,6 +30,7 @@ function Nota({
         onChange={(e) => updateNota(e, id)}
         width="120px"
         className="nota-nombre"
+        required
       />
       <Input
         type="number"
@@ -40,6 +41,7 @@ function Nota({
         onChange={(e) => updateNota(e, id)}
         className="input-nota"
         width="150px"
+        required
       />
       <InputGroup width="150px" className="input-porcentaje">
         <Input
@@ -49,6 +51,7 @@ function Nota({
           name="porcentaje"
           value={porcentaje}
           onChange={(e) => updateNota(e, id)}
+          required
         />
         <InputRightElement className="input-porcentaje-right">
           %

@@ -76,7 +76,9 @@ function AuthProvider({ children }) {
     if (!res) return false;
 
     setColecciones((colecciones) =>
-      colecciones.map((coleccion) => (coleccion.id === id ? values : coleccion))
+      colecciones.map((coleccion) =>
+        coleccion.id === id ? { ...values, saved: true } : coleccion
+      )
     );
 
     return true;

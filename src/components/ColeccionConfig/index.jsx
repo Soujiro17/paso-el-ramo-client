@@ -44,6 +44,8 @@ function ColeccionConfig({ openSettings, coleccion, updateColeccion }) {
             type="number"
             onChange={updateColeccion}
             value={coleccion.notaMinima}
+            min={0}
+            required
           />
         </InputGroup>
         <InputGroup width="50%" className="config-inputgroup-container">
@@ -62,6 +64,8 @@ function ColeccionConfig({ openSettings, coleccion, updateColeccion }) {
             type="number"
             onChange={updateColeccion}
             value={coleccion.notaMaxima}
+            min={0}
+            required
           />
         </InputGroup>
         <InputGroup width="50%" className="config-inputgroup-container">
@@ -79,8 +83,10 @@ function ColeccionConfig({ openSettings, coleccion, updateColeccion }) {
             width="150px"
             name="notaMinimaAprobacion"
             type="number"
+            min={0}
             onChange={updateColeccion}
             value={coleccion.notaMinimaAprobacion}
+            required
           />
         </InputGroup>
       </Center>

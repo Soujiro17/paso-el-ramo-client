@@ -91,6 +91,7 @@ function CustomEditable({
         value={isEditing ? value : value || defaultValue}
         onChange={onChange}
         maxLength={maxLength}
+        required
       />
       <EditableControls setIsEditing={setIsEditing} />
     </Editable>
