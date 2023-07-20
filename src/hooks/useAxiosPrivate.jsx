@@ -1,17 +1,19 @@
+/* eslint-disable no-param-reassign */
 import { useEffect } from "react";
 import { axiosPrivate } from "../services";
 import useAuth from "./useAuth";
+import { refresh } from "../app/api/auth";
 
 const useAxiosPrivate = () => {
   const { auth } = useAuth();
 
-  const token = auth || localStorage.getItem("token")
+  const token = auth;
 
   useEffect(() => {
     const requestIntercept = axiosPrivate.interceptors.request.use(
       (config) => {
         if (!config.headers.Authorization) {
-          config.headers["x-access-token"] = token;
+          config.headers.Authorization = `Bearer ${token}`;
         }
 
         return config;
@@ -26,8 +28,9 @@ const useAxiosPrivate = () => {
 
         if (err?.response?.status === 401 && !prevRequest?.sent) {
           prevRequest.sent = true;
-          //const newAccessToken = await refresh(refreshToken);
-          prevRequest.headers["x-access-token"] = token;
+          const token = await refresh();
+          const newAccessToken = token.accessToken;
+          prevRequest.headers.Authorization = `Bearer ${newAccessToken}`;
           return axiosPrivate(prevRequest);
         }
 
@@ -45,4 +48,3 @@ const useAxiosPrivate = () => {
 };
 
 export default useAxiosPrivate;
-

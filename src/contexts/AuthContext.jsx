@@ -1,12 +1,16 @@
 /* eslint-disable react/prop-types */
 import { createContext, useState, useMemo } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { useQuery } from "@tanstack/react-query";
 import defaultColecciones from "../data/colecciones";
 import defaultValuesColeccion from "../data/defaultColeccion";
+import { refresh } from "../app/api/auth";
 
 export const AuthContext = createContext({
   auth: "",
   setAuth: () => {},
+  user: "",
+  setUser: () => {},
   colecciones: [],
   setColecciones: () => {},
   addColeccion: (coleccion) => coleccion,
@@ -16,6 +20,7 @@ export const AuthContext = createContext({
 
 function AuthProvider({ children }) {
   const [auth, setAuth] = useState(null);
+  const [user, setUser] = useState(null);
   const [colecciones, setColecciones] = useState(defaultColecciones);
 
   const addColeccion = () => {
@@ -36,6 +41,16 @@ function AuthProvider({ children }) {
       colecciones.map((coleccion) => (coleccion.id === id ? values : coleccion))
     );
 
+  useQuery({
+    queryKey: ["user"],
+    queryFn: refresh,
+    onSuccess: (data) => {
+      setAuth(data.accessToken);
+      setUser(data.user);
+    },
+    retry: 1,
+  });
+
   const value = useMemo(
     () => ({
       auth,
@@ -45,8 +60,10 @@ function AuthProvider({ children }) {
       addColeccion,
       removeColeccion,
       updateColeccion,
+      user,
+      setUser,
     }),
-    [auth, setAuth, colecciones, setColecciones]
+    [auth, setAuth, colecciones, setColecciones, user]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

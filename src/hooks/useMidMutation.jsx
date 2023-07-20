@@ -9,7 +9,7 @@ function useMidMutation(props) {
       toast({
         status: "error",
         title: "Error",
-        description: err.response.data.mensaje,
+        description: err.response?.data?.mensaje || err.message,
       }),
     onSuccess: (data) => {
       toast({

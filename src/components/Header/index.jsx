@@ -24,9 +24,10 @@ import {
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { Link as LinkRouter } from "react-router-dom";
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import useMidMutation from "../../hooks/useMidMutation";
 import useAuth from "../../hooks/useAuth";
-import { login, signUp } from "../../app/api/auth";
+import { login, logout, signUp } from "../../app/api/auth";
 import PasswordInput from "../PasswordInput";
 
 // function NavLink({ children, href = "" }) {
@@ -61,19 +62,37 @@ function Header() {
   const handleEmail = (e) => setEmail(e.target.value);
   const handlePassword = (e) => setPassword(e.target.value);
 
-  const { auth, setAuth } = useAuth();
+  const { auth, setAuth, setUser } = useAuth();
 
   const { mutateAsync: mutateLogin } = useMidMutation({
     mutationFn: login,
     mutationKey: ["login"],
-    onSuccessCallback: (data) => setAuth(data.accessToken),
+    onSuccessCallback: (data) => {
+      setAuth(data.accessToken);
+      setUser(data.user);
+    },
   });
 
   const { mutateAsync: mutateSignUp } = useMidMutation({
     mutationFn: signUp,
     mutationKey: ["signUp"],
-    onSuccessCallback: (data) => setAuth(data.accessToken),
+    onSuccessCallback: (data) => {
+      setAuth(data.accessToken);
+      setUser(data.user);
+    },
   });
+
+  const { refetch } = useQuery({
+    queryFn: logout,
+    queryKey: ["logout"],
+    enabled: false,
+  });
+
+  const onClickLogout = () => {
+    refetch();
+    setAuth(null);
+    setUser(null);
+  };
 
   const onClickLogin = async () => {
     if (isCreating) await mutateSignUp({ email, password });
@@ -141,7 +160,7 @@ function Header() {
                     </Center>
                     <br />
                     <MenuDivider />
-                    <MenuItem>Logout</MenuItem>
+                    <MenuItem onClick={onClickLogout}>Logout</MenuItem>
                   </MenuList>
                 </>
               ) : (
