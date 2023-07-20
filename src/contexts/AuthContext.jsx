@@ -2,9 +2,15 @@
 import { createContext, useState, useMemo } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useQuery } from "@tanstack/react-query";
-import defaultColecciones from "../data/colecciones";
 import defaultValuesColeccion from "../data/defaultColeccion";
+import usePrivateQuery from "../hooks/usePrivateQuery";
+import usePrivateMutation from "../hooks/usePrivateMutation";
 import { refresh } from "../app/api/auth";
+import {
+  eliminarColeccion,
+  getColecciones,
+  guardarColeccion,
+} from "../app/api/colecciones";
 
 export const AuthContext = createContext({
   auth: "",
@@ -21,7 +27,17 @@ export const AuthContext = createContext({
 function AuthProvider({ children }) {
   const [auth, setAuth] = useState(null);
   const [user, setUser] = useState(null);
-  const [colecciones, setColecciones] = useState(defaultColecciones);
+  const [colecciones, setColecciones] = useState([]);
+
+  const { mutateAsync: saveColeccion } = usePrivateMutation({
+    mutationKey: ["save-coleccion"],
+    mutationFn: guardarColeccion,
+  });
+
+  const { mutateAsync: deleteColeccion } = usePrivateMutation({
+    mutationKey: ["delete-coleccion"],
+    mutationFn: eliminarColeccion,
+  });
 
   const addColeccion = () => {
     const newColeccion = { ...defaultValuesColeccion, id: uuidv4() };
@@ -31,15 +47,25 @@ function AuthProvider({ children }) {
     return newColeccion;
   };
 
-  const removeColeccion = (id) =>
+  const removeColeccion = async (id) => {
+    const res = await deleteColeccion({ id });
+
+    if (!res?.mensaje) return;
+
     setColecciones((colecciones) =>
       colecciones.filter((coleccion) => coleccion.id !== id)
     );
+  };
 
-  const updateColeccion = ({ id, values }) =>
+  const updateColeccion = async ({ id, values }) => {
+    const res = await saveColeccion({ id, coleccion: values });
+
+    if (!res?.mensaje) return;
+
     setColecciones((colecciones) =>
       colecciones.map((coleccion) => (coleccion.id === id ? values : coleccion))
     );
+  };
 
   useQuery({
     queryKey: ["user"],
@@ -49,6 +75,12 @@ function AuthProvider({ children }) {
       setUser(data.user);
     },
     retry: 1,
+  });
+
+  usePrivateQuery({
+    queryKey: ["colecciones"],
+    queryFn: getColecciones,
+    onSuccess: (data) => setColecciones(data),
   });
 
   const value = useMemo(

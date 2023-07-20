@@ -1,5 +1,3 @@
-import { v4 as uuidv4 } from "uuid";
-
 export default {
   nombre: "Nueva colección",
   mismoPorcentaje: false,
@@ -8,12 +6,5 @@ export default {
   promedioParcial: 0,
   promedioFinal: 0,
   examen: null,
-  notas: [
-    {
-      id: uuidv4(),
-      nombre: "Nota 1",
-      nota: "",
-      porcentaje: "",
-    },
-  ],
+  notas: [],
 };

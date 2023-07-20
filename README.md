@@ -8,8 +8,12 @@
 
 - <input type="checkbox"> Permitir compartir colecciones (?)
 
-- <input type="checkbox"> Agregar mínimo / máximo de nota, además de mínimo para aprobación o mínimo para exámen
+- <input type="checkbox" checked> Agregar mínimo / máximo de nota, además de mínimo para aprobación o mínimo para exámen
 
 - <input type="checkbox"> Agregar hovers a las colecciones
 
 - <input type="checkbox"> Instructivo en el README para invitar a la gente a que se registre y pueda guardar sus notas. Esto quiere decir que, en el inicio, no debería mostrar las colecciones (?)
+
+- <input type="checkbox"> Al guardar la colección, recién cuando se realice la petición cerrar la pestaña
+
+- <input type="checkbox"> Al iniciar la bd, checkear la creación de alguna colección con algún id en específico para posteriormente usar .lean() y mandarla al front para utilizarla como valor por defecto

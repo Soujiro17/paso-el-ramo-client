@@ -57,8 +57,6 @@ function ColeccionItem({
                 buttonSize="sm"
                 title="Eliminar colección"
                 description={`¿Deseas eliminar la colección <strong>${nombre}</strong>`}
-                onConfirmMessage="Colección eliminada con éxito"
-                onConfirmTitle="Eliminación exitosa"
                 zIndexButton={200}
                 icon={<CloseIcon />}
               />

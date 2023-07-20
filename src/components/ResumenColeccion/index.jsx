@@ -37,7 +37,7 @@ function ResumenColeccion({ coleccion }) {
             fontSize="2xl"
             className="resumen-badge"
           >
-            {coleccion?.promedioParcial?.toFixed(2)}
+            {coleccion?.promedioParcial?.toFixed(2) || 0}
           </Badge>
         </Flex>
         {coleccion?.examen && (
@@ -45,14 +45,14 @@ function ResumenColeccion({ coleccion }) {
             Promedio final
             <Badge
               colorScheme={
-                coleccion.notaMinimaAprobacion > coleccion.promedioFinal
+                coleccion?.notaMinimaAprobacion > coleccion?.promedioFinal
                   ? "red"
                   : "green"
               }
               fontSize="2xl"
               className="resumen-badge"
             >
-              {coleccion?.promedioFinal?.toFixed(2)}
+              {coleccion?.promedioFinal?.toFixed(2) || 0}
             </Badge>
           </Flex>
         )}

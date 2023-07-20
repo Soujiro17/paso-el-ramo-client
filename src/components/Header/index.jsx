@@ -62,7 +62,7 @@ function Header() {
   const handleEmail = (e) => setEmail(e.target.value);
   const handlePassword = (e) => setPassword(e.target.value);
 
-  const { auth, setAuth, setUser } = useAuth();
+  const { auth, setAuth, setUser, user } = useAuth();
 
   const { mutateAsync: mutateLogin } = useMidMutation({
     mutationFn: login,
@@ -156,7 +156,7 @@ function Header() {
                     </Center>
                     <br />
                     <Center>
-                      <p>Username</p>
+                      <p>{user?.email}</p>
                     </Center>
                     <br />
                     <MenuDivider />

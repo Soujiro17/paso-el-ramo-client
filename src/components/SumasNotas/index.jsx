@@ -10,10 +10,10 @@ function SumasNotas({ coleccion }) {
         Sumas
       </Text>
       <Text width="150px" className="input-nota">
-        {coleccion.notas.reduce((a, b) => a + Number(b.nota), 0)}
+        {coleccion.notas.reduce((a, b) => a + Number(b.nota), 0) || 0}
       </Text>
       <Text width="150px" className="input-porcentaje">
-        {coleccion.notas.reduce((a, b) => a + Number(b.porcentaje), 0)}%
+        {coleccion.notas.reduce((a, b) => a + Number(b.porcentaje), 0) || 0}%
       </Text>
     </Center>
   );

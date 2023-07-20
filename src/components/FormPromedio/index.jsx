@@ -1,27 +1,10 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
+/* eslint-disable no-unsafe-optional-chaining */
 /* eslint-disable react-hooks/exhaustive-deps */
-import {
-  Badge,
-  Box,
-  Button,
-  Card,
-  Center,
-  Divider,
-  Flex,
-  FormLabel,
-  Highlight,
-  Input,
-  InputGroup,
-  Stack,
-  Text,
-  useToast,
-} from "@chakra-ui/react";
+import { Card, Center, Highlight, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import useAuth from "../../hooks/useAuth";
 import Nota from "../Nota";
-import AlertDialogComponent from "../AlertDialog";
 import colors from "../../lib/colors";
 import ColeccionHeader from "../ColeccionHeader";
 import SumasNotas from "../SumasNotas";
@@ -30,8 +13,6 @@ import ResumenColeccion from "../ResumenColeccion";
 
 function FormPromedio({ coleccion, clearSelected }) {
   const [newColeccion, setNewColeccion] = useState(null);
-
-  const toast = useToast();
 
   const { updateColeccion, removeColeccion } = useAuth();
 
@@ -43,8 +24,8 @@ function FormPromedio({ coleccion, clearSelected }) {
         {
           id: uuidv4(),
           nombre: `Nota ${newColeccion.notas.length + 1}`,
-          nota: "",
-          porcentaje: "",
+          nota: 0,
+          porcentaje: 0,
         },
       ],
     }));
@@ -98,8 +79,8 @@ function FormPromedio({ coleccion, clearSelected }) {
       examen: {
         id: uuidv4(),
         nombre: "Exámen",
-        nota: "",
-        porcentaje: "",
+        nota: 0,
+        porcentaje: 0,
       },
     }));
 
@@ -119,8 +100,8 @@ function FormPromedio({ coleccion, clearSelected }) {
     setNewColeccion((prev) => ({
       ...prev,
       promedioFinal:
-        prev.promedioParcial * (1 - prev.examen.porcentaje / 100) +
-        (prev.examen.nota * prev.examen.porcentaje) / 100,
+        prev.promedioParcial * (1 - prev.examen?.porcentaje || 0 / 100) +
+        (prev.examen?.nota || 0 * prev.examen?.porcentaje || 0) / 100,
     }));
   };
 
@@ -130,10 +111,6 @@ function FormPromedio({ coleccion, clearSelected }) {
   };
 
   const saveColeccion = () => {
-    toast({
-      status: "success",
-      description: "Colección guardada con éxito",
-    });
     clearSelected();
     updateColeccion({ id: newColeccion.id, values: newColeccion });
     setNewColeccion(null);
@@ -179,7 +156,7 @@ function FormPromedio({ coleccion, clearSelected }) {
     if (newColeccion?.examen) {
       calcularPromedioFinal();
     }
-  }, [newColeccion?.notas, newColeccion?.examen]);
+  }, [newColeccion?.notas, newColeccion?.examen, calcularPromedioParcial]);
 
   useEffect(() => {
     setNewColeccion(coleccion);

@@ -61,8 +61,6 @@ function MutateColeccion({
             confirmText="Eliminar"
             description={`¿Deseas eliminar la colección <strong>${coleccion.nombre}</strong>?`}
             title="Eliminar colección"
-            onConfirmMessage="Colección eliminada con éxito"
-            onConfirmTitle="Eliminación exitosa"
           />
         </Center>
       </Stack>

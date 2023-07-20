@@ -7,13 +7,11 @@ import { refresh } from "../app/api/auth";
 const useAxiosPrivate = () => {
   const { auth } = useAuth();
 
-  const token = auth;
-
   useEffect(() => {
     const requestIntercept = axiosPrivate.interceptors.request.use(
       (config) => {
         if (!config.headers.Authorization) {
-          config.headers.Authorization = `Bearer ${token}`;
+          config.headers.Authorization = `Bearer ${auth}`;
         }
 
         return config;
@@ -42,7 +40,7 @@ const useAxiosPrivate = () => {
       axiosPrivate.interceptors.request.eject(requestIntercept);
       axiosPrivate.interceptors.response.eject(responseIntercept);
     };
-  }, [token]);
+  }, [auth]);
 
   return axiosPrivate;
 };
