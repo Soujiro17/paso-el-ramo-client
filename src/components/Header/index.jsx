@@ -2,20 +2,17 @@ import {
   Box,
   Flex,
   Avatar,
-  // Link,
   Button,
   Menu,
   MenuButton,
   MenuList,
   MenuItem,
   MenuDivider,
-  // useDisclosure,
   useColorModeValue,
   Stack,
   useColorMode,
   Center,
   Image,
-  // Text,
   Input,
   FormLabel,
   Text,
@@ -93,7 +90,9 @@ function Header() {
     resetAll();
   };
 
-  const onClickLogin = async () => {
+  const onClickLogin = async (e) => {
+    e.preventDefault();
+
     if (isCreating) await mutateSignUp({ email, password });
 
     await mutateLogin({ email, password });
@@ -179,72 +178,74 @@ function Header() {
                     zIndex={200}
                     padding="2"
                   >
-                    <Flex flexDirection="column" gap="15px">
-                      <Flex flexDirection="column">
-                        <FormLabel margin={0} htmlFor="email">
-                          Email
-                        </FormLabel>
-                        <Input
-                          type="email"
-                          id="email"
-                          placeholder="Email"
-                          value={email}
-                          onChange={handleEmail}
-                        />
-                      </Flex>
-                      <Flex flexDirection="column">
-                        <FormLabel margin={0} htmlFor="password">
-                          Contraseña
-                        </FormLabel>
-                        <PasswordInput
-                          id="password"
-                          type="password"
-                          placeholder="Contraseña"
-                          value={password}
-                          onChange={handlePassword}
-                        />
-                      </Flex>
-                      {isCreating && (
+                    <form
+                      onSubmit={
+                        isCreating && confirmPassword !== password
+                          ? null
+                          : onClickLogin
+                      }
+                    >
+                      <Flex flexDirection="column" gap="15px">
                         <Flex flexDirection="column">
-                          <FormLabel margin={0} htmlFor="confirmPassword">
-                            Repite la contraseña
+                          <FormLabel margin={0} htmlFor="email">
+                            Email
+                          </FormLabel>
+                          <Input
+                            type="email"
+                            id="email"
+                            placeholder="Email"
+                            value={email}
+                            onChange={handleEmail}
+                          />
+                        </Flex>
+                        <Flex flexDirection="column">
+                          <FormLabel margin={0} htmlFor="password">
+                            Contraseña
                           </FormLabel>
                           <PasswordInput
                             id="password"
-                            type="confirmPassword"
-                            placeholder="Repite la contraseña"
-                            value={confirmPassword}
-                            onChange={handleConfirmPassword}
+                            type="password"
+                            placeholder="Contraseña"
+                            value={password}
+                            onChange={handlePassword}
                           />
                         </Flex>
-                      )}
-                      {isCreating && confirmPassword !== password && (
-                        <Badge colorScheme="red">
-                          Las contraseñas no coinciden
-                        </Badge>
-                      )}
-                      <Button
-                        onClick={
-                          isCreating && confirmPassword !== password
-                            ? null
-                            : onClickLogin
-                        }
-                      >
-                        {isCreating ? "Registrarse" : "Iniciar sesión"}
-                      </Button>
-                      <Box textAlign="center">
-                        {isCreating
-                          ? "¿Ya posees una cuenta?"
-                          : "¿No tienes cuenta?"}
-                        <Text
-                          fontWeight="bold"
-                          onClick={handleIsCreating}
-                          cursor="pointer"
-                        >
-                          {isCreating ? "¡inicia sesión!" : " ¡regístrate!"}
-                        </Text>
-                      </Box>
-                    </Flex>
+                        {isCreating && (
+                          <Flex flexDirection="column">
+                            <FormLabel margin={0} htmlFor="confirmPassword">
+                              Repite la contraseña
+                            </FormLabel>
+                            <PasswordInput
+                              id="password"
+                              type="confirmPassword"
+                              placeholder="Repite la contraseña"
+                              value={confirmPassword}
+                              onChange={handleConfirmPassword}
+                            />
+                          </Flex>
+                        )}
+                        {isCreating && confirmPassword !== password && (
+                          <Badge colorScheme="red">
+                            Las contraseñas no coinciden
+                          </Badge>
+                        )}
+                        <Input type="submit" as={Button}>
+                          {isCreating ? "Registrarse" : "Iniciar sesión"}
+                        </Input>
+                        <Box textAlign="center">
+                          {isCreating
+                            ? "¿Ya posees una cuenta?"
+                            : "¿No tienes cuenta?"}
+                          <Text
+                            fontWeight="bold"
+                            onClick={handleIsCreating}
+                            cursor="pointer"
+                          >
+                            {isCreating ? "¡inicia sesión!" : " ¡regístrate!"}
+                          </Text>
+                        </Box>
+                      </Flex>
+                    </form>
                   </MenuList>
                 </>
               )}
