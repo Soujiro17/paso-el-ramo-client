@@ -1,4 +1,4 @@
-import { Box, useColorModeValue } from "@chakra-ui/react";
+import { Box, Stack, Text, useColorModeValue } from "@chakra-ui/react";
 import useAuth from "../../hooks/useAuth";
 import ColeccionItem from "../ColeccionItem";
 
@@ -20,12 +20,14 @@ function Colecciones({ setSelectedCollection, selectedCollection }) {
 
         return (
           <ColeccionItem
+            key={coleccion.id}
             id={coleccion.id}
             onClick={() => setSelectedCollection(isEqual ? null : coleccion)}
-            key={coleccion.id}
             nombre={coleccion.nombre || "Colección sin nombre *"}
             bgColor={coleccion.bgColor}
-            deleteColeccion={() => removeColeccion(coleccion.id)}
+            deleteColeccion={() =>
+              removeColeccion({ id: coleccion.id, saved: coleccion.saved })
+            }
             editing={isEqual}
           />
         );
@@ -49,10 +51,16 @@ function Colecciones({ setSelectedCollection, selectedCollection }) {
         alignItems="center"
         justifyContent="center"
         fontSize="6xl"
+        textAlign="center"
         bg={useColorModeValue("gray.100", "gray.1000")}
         className="coleccion-item"
       >
-        +
+        <Stack>
+          <span>+</span>
+          <Text margin="0" fontSize="initial">
+            Nueva colección
+          </Text>
+        </Stack>
       </Box>
     </Box>
   );

@@ -23,7 +23,7 @@ export const AuthContext = createContext({
   colecciones: [],
   setColecciones: () => {},
   addColeccion: (coleccion) => coleccion,
-  removeColeccion: (id) => id,
+  removeColeccion: ({ id, saved }) => ({ id, saved }),
   updateColeccion: ({ id, values }) => ({ id, values }),
   resetAll: () => {},
 });
@@ -52,10 +52,8 @@ function AuthProvider({ children }) {
     return newColeccion;
   };
 
-  const removeColeccion = async (id) => {
-    const coleccion = colecciones.find((coleccion) => coleccion.id === id);
-
-    if (coleccion.saved) {
+  const removeColeccion = async ({ id, saved }) => {
+    if (saved) {
       const res = await deleteColeccion({ id })
         .then(() => true)
         .catch(() => false);
@@ -94,7 +92,7 @@ function AuthProvider({ children }) {
     usePrivateQuery({
       queryKey: ["colecciones"],
       queryFn: getColecciones,
-      onSuccess: (data) => setColecciones((prev) => [...prev, data]),
+      onSuccess: (data) => setColecciones((prev) => [...prev, ...data]),
       enabled: false,
     });
 
@@ -139,6 +137,12 @@ function AuthProvider({ children }) {
 
     return () => clearTimeout(timeout);
   }, [isLoadingColecciones, isLoadingRefresh]);
+
+  useEffect(() => {
+    if (auth) {
+      refetchColecciones();
+    }
+  }, [auth]);
 
   if (loading) return <Spinner />;
 
