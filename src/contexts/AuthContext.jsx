@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import { createContext, useState, useMemo } from "react";
 import { v4 as uuidv4 } from "uuid";
@@ -15,7 +16,7 @@ import {
 export const AuthContext = createContext({
   auth: "",
   setAuth: () => {},
-  user: "",
+  user: null,
   setUser: () => {},
   colecciones: [],
   setColecciones: () => {},
@@ -48,23 +49,31 @@ function AuthProvider({ children }) {
   };
 
   const removeColeccion = async (id) => {
-    const res = await deleteColeccion({ id });
+    const res = await deleteColeccion({ id })
+      .then(() => true)
+      .catch(() => false);
 
-    if (!res?.mensaje) return;
+    if (!res) return false;
 
     setColecciones((colecciones) =>
       colecciones.filter((coleccion) => coleccion.id !== id)
     );
+
+    return true;
   };
 
   const updateColeccion = async ({ id, values }) => {
-    const res = await saveColeccion({ id, coleccion: values });
+    const res = await saveColeccion({ id, coleccion: values })
+      .then(() => true)
+      .catch(() => false);
 
-    if (!res?.mensaje) return;
+    if (!res) return false;
 
     setColecciones((colecciones) =>
       colecciones.map((coleccion) => (coleccion.id === id ? values : coleccion))
     );
+
+    return true;
   };
 
   useQuery({
@@ -74,7 +83,6 @@ function AuthProvider({ children }) {
       setAuth(data.accessToken);
       setUser(data.user);
     },
-    retry: 1,
   });
 
   usePrivateQuery({
@@ -95,7 +103,15 @@ function AuthProvider({ children }) {
       user,
       setUser,
     }),
-    [auth, setAuth, colecciones, setColecciones, user]
+    [
+      auth,
+      setAuth,
+      colecciones,
+      setColecciones,
+      user,
+      removeColeccion,
+      updateColeccion,
+    ]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

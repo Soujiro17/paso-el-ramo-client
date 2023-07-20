@@ -105,14 +105,22 @@ function FormPromedio({ coleccion, clearSelected }) {
     }));
   };
 
-  const deleteColeccion = () => {
-    removeColeccion(newColeccion.id);
+  const deleteColeccion = async () => {
+    const res = await removeColeccion(newColeccion.id);
+
+    if (!res) return;
+
     setNewColeccion(null);
   };
 
-  const saveColeccion = () => {
+  const saveColeccion = async () => {
+    const res = await updateColeccion({
+      id: newColeccion.id,
+      values: newColeccion,
+    });
+
+    if (!res) return;
     clearSelected();
-    updateColeccion({ id: newColeccion.id, values: newColeccion });
     setNewColeccion(null);
   };
 
