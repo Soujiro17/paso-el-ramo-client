@@ -1,10 +1,10 @@
-import { useMutation } from "@tanstack/react-query";
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import useAxiosPrivate from "./useAxiosPrivate";
+import useMidMutation from "./useMidMutation";
 
 function usePrivateMutation(props) {
   const axiosPrivate = useAxiosPrivate();
 
-  return useMutation({
+  return useMidMutation({
     ...props,
     mutationFn: (data) => props.mutationFn({ ...data, axiosPrivate }),
   });
