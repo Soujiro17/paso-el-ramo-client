@@ -62,7 +62,7 @@ function Header() {
   const handleEmail = (e) => setEmail(e.target.value);
   const handlePassword = (e) => setPassword(e.target.value);
 
-  const { auth, setAuth, setUser, user } = useAuth();
+  const { auth, setAuth, setUser, user, resetAll } = useAuth();
 
   const { mutateAsync: mutateLogin } = useMidMutation({
     mutationFn: login,
@@ -90,8 +90,7 @@ function Header() {
 
   const onClickLogout = () => {
     refetch();
-    setAuth(null);
-    setUser(null);
+    resetAll();
   };
 
   const onClickLogin = async () => {

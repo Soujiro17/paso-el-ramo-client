@@ -19,6 +19,7 @@ function FormPromedio({ coleccion, clearSelected }) {
   const addNota = () =>
     setNewColeccion((prev) => ({
       ...prev,
+      saved: false,
       notas: [
         ...prev.notas,
         {
@@ -34,6 +35,7 @@ function FormPromedio({ coleccion, clearSelected }) {
     if (id === "examen") {
       setNewColeccion((prev) => ({
         ...prev,
+        saved: false,
         examen: null,
       }));
 
@@ -42,6 +44,7 @@ function FormPromedio({ coleccion, clearSelected }) {
 
     setNewColeccion((prev) => ({
       ...prev,
+      saved: false,
       notas: newColeccion.notas.filter((nota) => nota.id !== id),
     }));
   };
@@ -50,6 +53,7 @@ function FormPromedio({ coleccion, clearSelected }) {
     if (id === "examen") {
       setNewColeccion((prev) => ({
         ...prev,
+        saved: false,
         examen: { ...prev.examen, [ev.target.name]: ev.target.value },
       }));
 
@@ -58,6 +62,7 @@ function FormPromedio({ coleccion, clearSelected }) {
 
     setNewColeccion((prev) => ({
       ...prev,
+      saved: false,
       notas: newColeccion.notas.map((nota) => {
         if (nota.id === id)
           return { ...nota, [ev.target.name]: ev.target.value };
@@ -70,12 +75,14 @@ function FormPromedio({ coleccion, clearSelected }) {
   const updateNewColeccion = (ev) =>
     setNewColeccion((prev) => ({
       ...prev,
+      saved: false,
       [ev.target.name]: ev.target.value,
     }));
 
   const addExamen = () =>
     setNewColeccion((prev) => ({
       ...prev,
+      saved: false,
       examen: {
         id: uuidv4(),
         nombre: "Exámen",

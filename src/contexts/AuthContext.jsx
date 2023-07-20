@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
-import { createContext, useState, useMemo } from "react";
+import { createContext, useState, useMemo, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useQuery } from "@tanstack/react-query";
 import defaultValuesColeccion from "../data/defaultColeccion";
@@ -12,6 +12,7 @@ import {
   getColecciones,
   guardarColeccion,
 } from "../app/api/colecciones";
+import Spinner from "../components/Spinner";
 
 export const AuthContext = createContext({
   auth: "",
@@ -23,12 +24,14 @@ export const AuthContext = createContext({
   addColeccion: (coleccion) => coleccion,
   removeColeccion: (id) => id,
   updateColeccion: ({ id, values }) => ({ id, values }),
+  resetAll: () => {},
 });
 
 function AuthProvider({ children }) {
   const [auth, setAuth] = useState(null);
   const [user, setUser] = useState(null);
   const [colecciones, setColecciones] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const { mutateAsync: saveColeccion } = usePrivateMutation({
     mutationKey: ["save-coleccion"],
@@ -49,11 +52,15 @@ function AuthProvider({ children }) {
   };
 
   const removeColeccion = async (id) => {
-    const res = await deleteColeccion({ id })
-      .then(() => true)
-      .catch(() => false);
+    const coleccion = colecciones.find((coleccion) => coleccion.id === id);
 
-    if (!res) return false;
+    if (coleccion.saved) {
+      const res = await deleteColeccion({ id })
+        .then(() => true)
+        .catch(() => false);
+
+      if (!res) return false;
+    }
 
     setColecciones((colecciones) =>
       colecciones.filter((coleccion) => coleccion.id !== id)
@@ -76,19 +83,28 @@ function AuthProvider({ children }) {
     return true;
   };
 
-  useQuery({
+  const resetAll = () => {
+    setAuth("");
+    setUser(null);
+    setColecciones([]);
+  };
+
+  const { isLoading: isLoadingColecciones, refetch: refetchColecciones } =
+    usePrivateQuery({
+      queryKey: ["colecciones"],
+      queryFn: getColecciones,
+      onSuccess: (data) => setColecciones(data),
+      enabled: false,
+    });
+
+  const { isLoading: isLoadingRefresh } = useQuery({
     queryKey: ["user"],
     queryFn: refresh,
     onSuccess: (data) => {
+      refetchColecciones();
       setAuth(data.accessToken);
       setUser(data.user);
     },
-  });
-
-  usePrivateQuery({
-    queryKey: ["colecciones"],
-    queryFn: getColecciones,
-    onSuccess: (data) => setColecciones(data),
   });
 
   const value = useMemo(
@@ -102,6 +118,7 @@ function AuthProvider({ children }) {
       updateColeccion,
       user,
       setUser,
+      resetAll,
     }),
     [
       auth,
@@ -113,6 +130,16 @@ function AuthProvider({ children }) {
       updateColeccion,
     ]
   );
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+
+    return () => clearTimeout(timeout);
+  }, [isLoadingColecciones, isLoadingRefresh]);
+
+  if (loading) return <Spinner />;
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

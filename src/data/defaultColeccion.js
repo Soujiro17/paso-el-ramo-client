@@ -7,4 +7,5 @@ export default {
   promedioFinal: 0,
   examen: null,
   notas: [],
+  saved: false,
 };
