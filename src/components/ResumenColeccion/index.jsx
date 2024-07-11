@@ -12,8 +12,8 @@ function ResumenColeccion({ coleccion }) {
       left="0"
       borderTop="1px"
       borderBlockEndStyle="solid"
-      borderColor={colorMode === "light" ? "#171923f2" : "#ffffffeb"}
-      bgColor={colorMode === "light" ? "#ffffffeb" : "#171923f2"}
+      borderColor={colorMode === "light" ? "rgb(23 25 35 / 99%)" : "#ffffffeb"}
+      bgColor={colorMode === "light" ? "#ffffffeb" : "rgb(23 25 35 / 99%)"}
       className="resumen-wrapper"
     >
       <Flex

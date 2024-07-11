@@ -110,8 +110,8 @@ function Header() {
               objectFit="contain"
               src={
                 colorMode === "light"
-                  ? "/logo-nobg.png"
-                  : "/logo-nobg-whiteblue.png"
+                  ? "/logo-nobg.webp"
+                  : "/logo-nobg-whiteblue.webp"
               }
               alt="logo"
             />
