@@ -111,11 +111,11 @@ function Header() {
               src={
                 colorMode === "light"
                   ? "/logo-nobg.png"
-                  : "/logo-nobg-white.png"
+                  : "/logo-nobg-whiteblue.png"
               }
               alt="logo"
             />
-            {/* <Text>MIS NOTAS</Text> */}
+            {/* <Text>PASO EL RAMO</Text> */}
           </Box>
         </LinkRouter>
         {/* <Flex>

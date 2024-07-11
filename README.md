@@ -1,4 +1,4 @@
-### misnotas.cl
+### pasoelramo.cl
 
 - <input type="checkbox"> Agregar la opción de calcular todas las notas con mismo porcentaje (checkbox)
 

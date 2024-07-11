@@ -5,8 +5,8 @@ import Header from "../components/Header";
 
 function PageLayout({
   children,
-  title = "Mis notas",
-  description = "Mis notas es una web...",
+  title = "Inicio | Paso el ramo",
+  description = "Paso el ramo es una aplicación web destinada a que cualquier estudiante pueda realizar el cálculo de su promedio, pudiendo guardar la información en colecciones al iniciar sesión",
 }) {
   return (
     <>

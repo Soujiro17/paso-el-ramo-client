@@ -5,7 +5,7 @@ export default [
     id: uuidv4(),
     nombre: "Administración General",
     mismoPorcentaje: false,
-    notaMinimaAprobacion: 40,
+    notaMinimaAprobacion: 39.5,
     notaMinima: 10,
     notaMaxima: 70,
     promedioParcial: 0,

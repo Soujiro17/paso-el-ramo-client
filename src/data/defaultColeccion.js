@@ -1,7 +1,7 @@
 export default {
   nombre: "Nueva colección",
   mismoPorcentaje: false,
-  notaMinimaAprobacion: 40,
+  notaMinimaAprobacion: 39.5,
   notaMinima: 10,
   notaMaxima: 70,
   promedioParcial: 0,

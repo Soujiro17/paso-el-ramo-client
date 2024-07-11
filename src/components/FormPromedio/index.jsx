@@ -26,8 +26,8 @@ function FormPromedio({ coleccion, clearSelected }) {
         {
           id: uuidv4(),
           nombre: `Nota ${newColeccion.notas.length + 1}`,
-          nota: 0,
-          porcentaje: 0,
+          nota: "",
+          porcentaje: "",
         },
       ],
     }));
