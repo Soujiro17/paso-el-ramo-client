@@ -113,7 +113,7 @@ function Header() {
                   ? "/logo-nobg.webp"
                   : "/logo-nobg-whiteblue.webp"
               }
-              alt="logo"
+              alt="Logo Paso El Ramo"
             />
             {/* <Text>PASO EL RAMO</Text> */}
           </Box>

@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { disableReactDevTools } from "@fvilers/disable-react-devtools";
 import AppRoutes from "./routes";
 import AuthProvider from "./contexts/AuthContext";
+import CollectionsProvider from "./contexts/CollectionsContext";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,17 +23,19 @@ if (import.meta.env.VITE_NODE_ENV !== "development") {
 ReactDOM.createRoot(document.getElementById("root")).render(
   <QueryClientProvider client={queryClient}>
     <AuthProvider>
-      <ChakraProvider
-        toastOptions={{
-          defaultOptions: {
-            position: "top-right",
-            isClosable: true,
-            duration: 3000,
-          },
-        }}
-      >
-        <AppRoutes />
-      </ChakraProvider>
+      <CollectionsProvider>
+        <ChakraProvider
+          toastOptions={{
+            defaultOptions: {
+              position: "top-right",
+              isClosable: true,
+              duration: 3000,
+            },
+          }}
+        >
+          <AppRoutes />
+        </ChakraProvider>
+      </CollectionsProvider>
     </AuthProvider>
   </QueryClientProvider>
 );

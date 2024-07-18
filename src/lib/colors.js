@@ -19,4 +19,5 @@ export default {
   },
   gray: "rgba(200, 200, 200, 0.3)",
   gray2: "rgba(200, 200, 200, 0.7)",
+  gray3: "rgba(100, 100, 100, 1)",
 };

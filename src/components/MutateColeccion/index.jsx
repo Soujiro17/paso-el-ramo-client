@@ -10,16 +10,11 @@ import {
 } from "@chakra-ui/react";
 import Nota from "../Nota";
 import AlertDialogComponent from "../AlertDialog";
+import useCollections from "../../hooks/useCollections";
 
-function MutateColeccion({
-  coleccion,
-  addNota,
-  deleteNota,
-  updateNota,
-  addExamen,
-  deleteColeccion,
-  saveColeccion,
-}) {
+function MutateColeccion({ nombre, notaMaxima, notaMinima, examen }) {
+  const { addNota, saveCollection, mutateRemoveCollection } = useCollections();
+
   return (
     <>
       <Button colorScheme="blue" onClick={addNota}>
@@ -30,20 +25,18 @@ function MutateColeccion({
       </Box>
       <Flex flexDirection="column" textAlign="center" gap="10px">
         <Text fontSize="2xl">¿Das exámen?</Text>
-        {coleccion.examen ? (
+        {examen ? (
           <Nota
-            key={0}
             nombre="Exámen"
-            id="examen"
-            nota={coleccion.examen.nota}
-            porcentaje={coleccion.examen.porcentaje}
-            deleteNota={deleteNota}
-            updateNota={updateNota}
-            min={coleccion.notaMinima}
-            max={coleccion.notaMaxima}
+            id={examen.id}
+            nota={examen.nota}
+            porcentaje={examen.porcentaje}
+            min={notaMinima}
+            max={notaMaxima}
+            type="examen"
           />
         ) : (
-          <Button onClick={addExamen}>Agregar exámen</Button>
+          <Button onClick={() => addNota("examen")}>Agregar exámen</Button>
         )}
       </Flex>
       <Box width="100%" mt="2">
@@ -52,14 +45,14 @@ function MutateColeccion({
 
       <Stack display="flex" gap="10px" marginTop="20px" width="100%">
         <Center gap="10px" className="mutate-buttons">
-          <Button colorScheme="green" onClick={saveColeccion}>
+          <Button colorScheme="green" onClick={saveCollection}>
             Guardar colección
           </Button>
           <AlertDialogComponent
-            onConfirm={deleteColeccion}
+            onConfirm={mutateRemoveCollection}
             buttonText="Eliminar colección"
             confirmText="Eliminar"
-            description={`¿Deseas eliminar la colección <strong>${coleccion.nombre}</strong>?`}
+            description={`¿Deseas eliminar la colección <strong>${nombre}</strong>?`}
             title="Eliminar colección"
           />
         </Center>

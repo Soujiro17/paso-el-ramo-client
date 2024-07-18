@@ -25,7 +25,8 @@
     "react-helmet": "^6.1.0",
     "react-jdenticon": "1.0.1",
     "react-router-dom": "6.14.1",
-    "uuid": "9.0.0"
+    "uuid": "9.0.0",
+    "zustand": "^4.5.4"
   },
   "lint-staged": {
     ".{jsx,js}": "npm run lint:fix"

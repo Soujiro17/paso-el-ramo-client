@@ -4,10 +4,12 @@ import { SettingsIcon } from "@chakra-ui/icons";
 import CustomEditable from "../CustomEditable";
 import ColeccionConfig from "../ColeccionConfig";
 
-function ColeccionHeader({ coleccion, updateColeccion }) {
+function ColeccionHeader({ nombre, handleValues }) {
   const [openSettings, setOpenSettings] = useState(false);
 
   const handleOpenSettings = () => setOpenSettings(!openSettings);
+  const handleCollectionValues = (e) =>
+    handleValues(e.target.name, e.target.value);
 
   return (
     <Box
@@ -33,10 +35,10 @@ function ColeccionHeader({ coleccion, updateColeccion }) {
       >
         Editando{" "}
         <CustomEditable
-          value={coleccion?.nombre}
+          value={nombre}
           name="nombre"
           maxLength={30}
-          onChange={updateColeccion}
+          onChange={handleCollectionValues}
           defaultValue="Colección sin nombre *"
           badge
         />
@@ -47,11 +49,7 @@ function ColeccionHeader({ coleccion, updateColeccion }) {
           onClick={handleOpenSettings}
         />
       </Box>
-      <ColeccionConfig
-        coleccion={coleccion}
-        openSettings={openSettings}
-        updateColeccion={updateColeccion}
-      />
+      <ColeccionConfig openSettings={openSettings} />
       <Divider />
     </Box>
   );

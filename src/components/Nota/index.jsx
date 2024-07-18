@@ -7,6 +7,7 @@ import {
 } from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons";
 import CustomEditable from "../CustomEditable";
+import useCollections from "../../hooks/useCollections";
 
 function Nota({
   nombre,
@@ -14,11 +15,17 @@ function Nota({
   id,
   nota,
   porcentaje,
-  deleteNota,
-  updateNota,
   notaMinima,
   notaMaxima,
+  type = "nota",
 }) {
+  const { removeNota, updateNota } = useCollections();
+
+  const handleUpdateValue = (e) =>
+    updateNota(id, e.target.name, e.target.value, type);
+
+  const handleRemoveNota = () => removeNota(id, type);
+
   return (
     <Stack flexDirection="row" alignItems="center" className="nota-container">
       <CustomEditable
@@ -27,7 +34,7 @@ function Nota({
         name="nombre"
         fontSize="inherit"
         maxLength={30}
-        onChange={(e) => updateNota(e, id)}
+        onChange={handleUpdateValue}
         width="120px"
         className="nota-nombre"
         required
@@ -38,7 +45,7 @@ function Nota({
         max={notaMaxima}
         name="nota"
         value={nota}
-        onChange={(e) => updateNota(e, id)}
+        onChange={handleUpdateValue}
         className="input-nota"
         width="150px"
         required
@@ -50,7 +57,7 @@ function Nota({
           max={100}
           name="porcentaje"
           value={porcentaje}
-          onChange={(e) => updateNota(e, id)}
+          onChange={handleUpdateValue}
           required
         />
         <InputRightElement className="input-porcentaje-right">
@@ -59,7 +66,7 @@ function Nota({
       </InputGroup>
       <IconButton
         colorScheme="red"
-        onClick={() => deleteNota(id)}
+        onClick={handleRemoveNota}
         className="delete-nota"
         icon={<CloseIcon className="delete-nota-icon" />}
       />

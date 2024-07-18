@@ -1,7 +1,33 @@
 import React from "react";
-import { Badge, Box, Flex, useColorMode } from "@chakra-ui/react";
+import { Badge, Box, Flex, Text, useColorMode } from "@chakra-ui/react";
 
-function ResumenColeccion({ coleccion }) {
+function PromedioResult({ text = "", promedio = 0, notaMinimaAprobacion }) {
+  const getSchemaColor = (promedio) => {
+    return notaMinimaAprobacion > promedio ? "red" : "green";
+  };
+
+  return (
+    <Flex flexDirection="column" textAlign="center">
+      <Text px="2" fontSize="md">
+        {text?.toUpperCase()}
+      </Text>
+      <Badge
+        colorScheme={getSchemaColor(promedio)}
+        fontSize="2xl"
+        className="resumen-badge"
+      >
+        {promedio.toFixed(2)}
+      </Badge>
+    </Flex>
+  );
+}
+
+function ResumenColeccion({
+  promedioFinal,
+  promedioParcial,
+  notaMinimaAprobacion,
+  examen,
+}) {
   const { colorMode } = useColorMode();
 
   return (
@@ -20,40 +46,22 @@ function ResumenColeccion({ coleccion }) {
         alignItems="center"
         justifyContent="center"
         flexDirection="row"
-        gap="15px"
+        gap="30px"
         p="2"
         fontSize="2xl"
         className="resumen-container"
       >
-        <Flex flexDirection="column" textAlign="center">
-          Promedio parcial
-          <Badge
-            colorScheme={
-              coleccion?.notaMinimaAprobacion > coleccion?.promedioParcial
-                ? "red"
-                : "green"
-            }
-            fontSize="2xl"
-            className="resumen-badge"
-          >
-            {coleccion?.promedioParcial?.toFixed(2) || 0}
-          </Badge>
-        </Flex>
-        {coleccion?.examen && (
-          <Flex flexDirection="column" textAlign="center">
-            Promedio final
-            <Badge
-              colorScheme={
-                coleccion?.notaMinimaAprobacion > coleccion?.promedioFinal
-                  ? "red"
-                  : "green"
-              }
-              fontSize="2xl"
-              className="resumen-badge"
-            >
-              {coleccion?.promedioFinal?.toFixed(2) || 0}
-            </Badge>
-          </Flex>
+        <PromedioResult
+          notaMinimaAprobacion={notaMinimaAprobacion}
+          promedio={promedioParcial}
+          text="Promedio parcial"
+        />
+        {examen && (
+          <PromedioResult
+            notaMinimaAprobacion={notaMinimaAprobacion}
+            promedio={promedioFinal}
+            text="Promedio final"
+          />
         )}
       </Flex>
     </Box>

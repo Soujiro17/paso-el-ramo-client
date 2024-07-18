@@ -2,7 +2,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Card, Center, Highlight, Text, useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 import useAuth from "../../hooks/useAuth";
 import Nota from "../Nota";
 import colors from "../../lib/colors";
@@ -10,137 +9,39 @@ import ColeccionHeader from "../ColeccionHeader";
 import SumasNotas from "../SumasNotas";
 import MutateColeccion from "../MutateColeccion";
 import ResumenColeccion from "../ResumenColeccion";
+import { useCollectionStore } from "../../store";
 
-function FormPromedio({ coleccion, clearSelected }) {
-  const [newColeccion, setNewColeccion] = useState(null);
+function FormPromedio() {
+  const [promedioParcial, setPromedioParcial] = useState(0);
+  const [promedioFinal, setPromedioFinal] = useState(0);
 
-  const { updateColeccion, removeColeccion, auth } = useAuth();
+  const coleccion = useCollectionStore((state) => state.selectedCollection);
 
-  const toast = useToast();
+  const handleCollectionValues = useCollectionStore(
+    (state) => state.handleValuesSelected
+  );
 
-  const addNota = () =>
-    setNewColeccion((prev) => ({
-      ...prev,
-      notas: [
-        ...prev.notas,
-        {
-          id: uuidv4(),
-          nombre: `Nota ${newColeccion.notas.length + 1}`,
-          nota: "",
-          porcentaje: "",
-        },
-      ],
-    }));
-
-  const deleteNota = (id) => {
-    if (id === "examen") {
-      setNewColeccion((prev) => ({
-        ...prev,
-        examen: null,
-      }));
-
-      return;
-    }
-
-    setNewColeccion((prev) => ({
-      ...prev,
-      notas: newColeccion.notas.filter((nota) => nota.id !== id),
-    }));
-  };
-
-  const updateNota = (ev, id) => {
-    if (id === "examen") {
-      setNewColeccion((prev) => ({
-        ...prev,
-        examen: { ...prev.examen, [ev.target.name]: ev.target.value },
-      }));
-
-      return;
-    }
-
-    setNewColeccion((prev) => ({
-      ...prev,
-      notas: newColeccion.notas.map((nota) => {
-        if (nota.id === id)
-          return { ...nota, [ev.target.name]: ev.target.value };
-
-        return nota;
-      }),
-    }));
-  };
-
-  const updateNewColeccion = (ev) =>
-    setNewColeccion((prev) => ({
-      ...prev,
-      [ev.target.name]: ev.target.value,
-    }));
-
-  const addExamen = () =>
-    setNewColeccion((prev) => ({
-      ...prev,
-      examen: {
-        id: uuidv4(),
-        nombre: "Exámen",
-        nota: 0,
-        porcentaje: 0,
-      },
-    }));
+  // const toast = useToast();
 
   const calcularPromedioParcial = () => {
-    const notasPonderadas = newColeccion?.notas?.reduce(
+    const notasPonderadas = coleccion?.notas?.reduce(
       (a, b) => a + b.nota * (b.porcentaje / 100),
       0
     );
 
-    setNewColeccion((prev) => ({
-      ...prev,
-      promedioParcial: notasPonderadas,
-    }));
+    setPromedioParcial(notasPonderadas);
   };
 
   const calcularPromedioFinal = () => {
-    setNewColeccion((prev) => ({
-      ...prev,
-      promedioFinal:
-        prev.promedioParcial * (1 - prev.examen?.porcentaje || 0 / 100) +
-        (prev.examen?.nota || 0 * prev.examen?.porcentaje || 0) / 100,
-    }));
-  };
-
-  const deleteColeccion = async () => {
-    const res = await removeColeccion({
-      id: newColeccion.id,
-      saved: newColeccion.saved,
-    });
-    if (!res) return;
-    setNewColeccion(null);
-  };
-
-  const saveColeccion = async () => {
-    if (!auth) {
-      toast({
-        status: "error",
-        title: "Error al guardar",
-        description:
-          "No puedes guardar una colección sin haber iniciado sesión antes",
-      });
-
-      return;
-    }
-
-    const res = await updateColeccion({
-      id: newColeccion.id,
-      values: newColeccion,
-    });
-
-    if (!res) return;
-    clearSelected();
-    setNewColeccion(null);
+    setPromedioFinal(
+      promedioParcial * (1 - coleccion?.examen?.porcentaje / 100) +
+        (coleccion?.examen?.nota * coleccion?.examen.porcentaje) / 100
+    );
   };
 
   let contentToRender;
 
-  if (!newColeccion)
+  if (!coleccion)
     contentToRender = (
       <Text fontSize="2xl" className="seleccionar-coleccion">
         <Highlight
@@ -151,12 +52,12 @@ function FormPromedio({ coleccion, clearSelected }) {
         </Highlight>
       </Text>
     );
-  else if (newColeccion?.notas?.length === 0)
+  else if (coleccion?.notas?.length === 0)
     contentToRender = (
       <Text fontSize="2xl">No hay notas en esta colección</Text>
     );
-  else if (newColeccion.notas)
-    contentToRender = newColeccion?.notas?.map(
+  else if (coleccion.notas)
+    contentToRender = coleccion?.notas?.map(
       ({ id, nota, porcentaje, nombre }, index) => (
         <Nota
           key={id}
@@ -165,31 +66,30 @@ function FormPromedio({ coleccion, clearSelected }) {
           nombre={nombre}
           nota={nota}
           porcentaje={porcentaje}
-          deleteNota={deleteNota}
-          updateNota={updateNota}
         />
       )
     );
 
   useEffect(() => {
-    if (newColeccion?.notas) {
-      calcularPromedioParcial();
-    }
-    if (newColeccion?.examen) {
+    if (coleccion?.examen) {
       calcularPromedioFinal();
     }
-  }, [newColeccion?.notas, newColeccion?.examen, calcularPromedioParcial]);
+  }, [coleccion?.examen]);
 
   useEffect(() => {
-    setNewColeccion(coleccion);
-  }, [coleccion]);
+    if (coleccion?.notas) {
+      calcularPromedioParcial();
+    }
+  }, [coleccion?.notas]);
 
+  /*
   useEffect(() => {
     if (!auth) {
       clearSelected();
       setNewColeccion(null);
     }
   }, [auth]);
+  */
 
   return (
     <>
@@ -200,18 +100,20 @@ function FormPromedio({ coleccion, clearSelected }) {
         width="50%"
         className="notas-container"
       >
-        {newColeccion && (
+        {coleccion && (
           <>
             <ColeccionHeader
-              coleccion={newColeccion}
-              updateColeccion={updateNewColeccion}
+              nombre={coleccion.nombre}
+              handleValues={handleCollectionValues}
             />
             <Center
               textAlign="center"
-              color={colors.gray2}
+              color={colors.gray3}
               className="nota-container"
             >
-              <Text width="120px" className="nota-nombre custom-label-nombre" />
+              <Text width="120px" className="nota-nombre custom-label-nombre">
+                Nombre
+              </Text>
               <Text width="150px" className="input-nota">
                 Nota
               </Text>
@@ -222,22 +124,27 @@ function FormPromedio({ coleccion, clearSelected }) {
           </>
         )}
         {contentToRender}
-        {newColeccion && (
+        {coleccion && (
           <>
-            <SumasNotas coleccion={newColeccion} />
+            <SumasNotas coleccion={coleccion} />
             <MutateColeccion
-              addExamen={addExamen}
-              addNota={addNota}
-              coleccion={newColeccion}
-              deleteNota={deleteNota}
-              updateNota={updateNota}
-              saveColeccion={saveColeccion}
-              deleteColeccion={deleteColeccion}
+              notaMaxima={coleccion.notaMinima}
+              notaMinima={coleccion.notaMaxima}
+              nombre={coleccion.nombre}
+              examen={coleccion.examen}
+              idColeccion={coleccion.id}
             />
           </>
         )}
       </Card>
-      {newColeccion && <ResumenColeccion coleccion={newColeccion} />}
+      {coleccion && (
+        <ResumenColeccion
+          examen={coleccion.examen}
+          notaMinimaAprobacion={coleccion.notaMinimaAprobacion}
+          promedioFinal={promedioFinal}
+          promedioParcial={promedioParcial}
+        />
+      )}
     </>
   );
 }

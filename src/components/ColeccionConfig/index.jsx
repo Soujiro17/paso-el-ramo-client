@@ -7,8 +7,20 @@ import {
   Text,
 } from "@chakra-ui/react";
 import React from "react";
+import { useCollectionStore } from "../../store";
 
-function ColeccionConfig({ openSettings, coleccion, updateColeccion }) {
+function ColeccionConfig({ openSettings }) {
+  const { notaMinima, notaMaxima, notaMinimaAprobacion } = useCollectionStore(
+    (state) => state.selectedCollection
+  );
+
+  const handleCollectionValues = useCollectionStore(
+    (state) => state.handleValuesSelected
+  );
+
+  const handleValues = (e) =>
+    handleCollectionValues(e.target.name, e.target.value);
+
   return (
     <Box
       maxHeight={openSettings ? "250px" : 0}
@@ -42,8 +54,8 @@ function ColeccionConfig({ openSettings, coleccion, updateColeccion }) {
             width="150px"
             name="notaMinima"
             type="number"
-            onChange={updateColeccion}
-            value={coleccion.notaMinima}
+            onChange={handleValues}
+            value={notaMinima}
             min={0}
             required
           />
@@ -62,8 +74,8 @@ function ColeccionConfig({ openSettings, coleccion, updateColeccion }) {
             width="150px"
             name="notaMaxima"
             type="number"
-            onChange={updateColeccion}
-            value={coleccion.notaMaxima}
+            onChange={handleValues}
+            value={notaMaxima}
             min={0}
             required
           />
@@ -84,8 +96,8 @@ function ColeccionConfig({ openSettings, coleccion, updateColeccion }) {
             name="notaMinimaAprobacion"
             type="number"
             min={0}
-            onChange={updateColeccion}
-            value={coleccion.notaMinimaAprobacion}
+            onChange={handleValues}
+            value={notaMinimaAprobacion}
             required
           />
         </InputGroup>

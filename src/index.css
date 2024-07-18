@@ -27,6 +27,10 @@ html {
   background: #555;
 }
 
+.main-container {
+  background-color: #fafafacc;
+}
+
 @media only screen and (max-width: 1250px) {
   .main-container {
     padding-bottom: 100px !important;
