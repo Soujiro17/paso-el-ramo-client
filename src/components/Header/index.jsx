@@ -141,7 +141,7 @@ function Header() {
                   >
                     <Avatar
                       size="sm"
-                      src="https://avatars.dicebear.com/api/male/username.svg"
+                      src="https://api.dicebear.com/9.x/shapes/svg?seed=Aneka"
                     />
                   </MenuButton>
                   <MenuList alignItems="center" zIndex={200}>
@@ -149,7 +149,7 @@ function Header() {
                     <Center>
                       <Avatar
                         size="2xl"
-                        src="https://avatars.dicebear.com/api/male/username.svg"
+                        src="https://api.dicebear.com/9.x/shapes/svg?seed=Aneka"
                       />
                     </Center>
                     <br />

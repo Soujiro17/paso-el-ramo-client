@@ -31,7 +31,7 @@ export const useCollectionStore = create((set) => ({
         promedioFinal: 0,
         examen: null,
         notas: [],
-        saved: false,
+        synced: false,
       };
 
       return {

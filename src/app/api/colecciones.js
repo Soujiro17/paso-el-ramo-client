@@ -6,8 +6,14 @@ export const getColecciones = async ({ axiosPrivate }) => {
   return data;
 };
 
-export const guardarColeccion = async ({ axiosPrivate, id, coleccion }) => {
-  const { data } = await axiosPrivate.post(`${basePath}/${id}`, coleccion);
+export const crearColeccion = async ({ axiosPrivate, coleccion }) => {
+  const { data } = await axiosPrivate.post(`${basePath}/`, coleccion);
+
+  return data;
+};
+
+export const actualizarColeccion = async ({ axiosPrivate, id, coleccion }) => {
+  const { data } = await axiosPrivate.put(`${basePath}/${id}`, coleccion);
 
   return data;
 };

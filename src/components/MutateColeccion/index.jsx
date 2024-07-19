@@ -13,7 +13,8 @@ import AlertDialogComponent from "../AlertDialog";
 import useCollections from "../../hooks/useCollections";
 
 function MutateColeccion({ nombre, notaMaxima, notaMinima, examen }) {
-  const { addNota, saveCollection, mutateRemoveCollection } = useCollections();
+  const { addNota, mutateSaveCollection, mutateRemoveCollection } =
+    useCollections();
 
   return (
     <>
@@ -45,7 +46,7 @@ function MutateColeccion({ nombre, notaMaxima, notaMinima, examen }) {
 
       <Stack display="flex" gap="10px" marginTop="20px" width="100%">
         <Center gap="10px" className="mutate-buttons">
-          <Button colorScheme="green" onClick={saveCollection}>
+          <Button colorScheme="green" onClick={mutateSaveCollection}>
             Guardar colección
           </Button>
           <AlertDialogComponent

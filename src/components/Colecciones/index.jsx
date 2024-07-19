@@ -34,7 +34,7 @@ function Colecciones() {
             deleteColeccion={() =>
               mutateRemoveCollection({
                 id: coleccion.id,
-                isSynced: coleccion.saved,
+                synced: coleccion.synced,
               })
             }
             editing={isEqual}

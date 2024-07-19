@@ -3,7 +3,11 @@ import { createContext, useMemo } from "react";
 import { useShallow } from "zustand/react/shallow";
 import { useCollectionStore } from "../store";
 import usePrivateMutation from "../hooks/usePrivateMutation";
-import { eliminarColeccion, guardarColeccion } from "../app/api/colecciones";
+import {
+  eliminarColeccion,
+  actualizarColeccion,
+  crearColeccion,
+} from "../app/api/colecciones";
 import useAuth from "../hooks/useAuth";
 
 export const CollectionsContext = createContext({
@@ -51,10 +55,13 @@ function CollectionsProvider({ children }) {
   );
 
   /* PETICIONES */
-  const { mutateAsync: mutateUpdateCollection } = usePrivateMutation({
+  const { mutateAsync: mutateSaveCollection } = usePrivateMutation({
     mutationKey: ["save-coleccion"],
     mutationFn: (data) => {
-      if (user) guardarColeccion({ ...data });
+      if (user && !selectCollection.synced)
+        return crearColeccion({ ...data, ...selectCollection });
+      if (user && selectCollection.synced)
+        return actualizarColeccion({ ...data, ...selectCollection });
 
       return data;
     },
@@ -66,7 +73,7 @@ function CollectionsProvider({ children }) {
   const { mutateAsync: mutateRemoveCollection } = usePrivateMutation({
     mutationKey: ["delete-coleccion"],
     mutationFn: (data) => {
-      if (user && data.isSynced) eliminarColeccion({ ...data });
+      if (user && data && data?.synced) eliminarColeccion({ ...data });
 
       return data;
     },
@@ -82,7 +89,7 @@ function CollectionsProvider({ children }) {
       saveCollection,
       selectedCollection,
       selectCollection,
-      mutateUpdateCollection,
+      mutateSaveCollection,
       mutateRemoveCollection,
 
       /* Notas */
