@@ -53,7 +53,9 @@ function FormPromedio() {
     );
   else if (coleccion?.notas?.length === 0)
     contentToRender = (
-      <Text fontSize="2xl">No hay notas en esta colección</Text>
+      <Text fontSize={["1rem", "1.3rem"]}>
+        <strong>No hay notas en esta colección</strong>
+      </Text>
     );
   else if (coleccion.notas)
     contentToRender = coleccion?.notas?.map(
