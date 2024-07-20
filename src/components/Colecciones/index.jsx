@@ -70,8 +70,6 @@ function Colecciones() {
         }
       };
 
-      window.addEventListener("resize", handleResize);
-
       handleResize();
     }
     return () => {
