@@ -20,7 +20,7 @@ import {
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { Link as LinkRouter } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import useMidMutation from "../../hooks/useMidMutation";
 import useAuth from "../../hooks/useAuth";
@@ -52,6 +52,7 @@ function Header() {
   const [isCreating, setIsCreating] = useState(false);
 
   const { colorMode, toggleColorMode } = useColorMode();
+  const logoRef = useRef(null);
 
   const handleIsCreating = () => setIsCreating(!isCreating);
 
@@ -98,6 +99,14 @@ function Header() {
     await mutateLogin({ email, password });
   };
 
+  useEffect(() => {
+    if (colorMode === "dark") {
+      logoRef.current.setAttribute("src", "/logo-nobg-whiteblue.webp");
+    } else {
+      logoRef.current.setAttribute("src", "/logo-nobg.webp");
+    }
+  }, [colorMode]);
+
   // const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Box
@@ -109,14 +118,11 @@ function Header() {
         <LinkRouter to="/">
           <Box display="flex" alignItems="center">
             <img
+              ref={logoRef}
               height={70}
               width={120}
               fetchpriority="high"
-              src={
-                colorMode === "light"
-                  ? "/logo-nobg.webp"
-                  : "/logo-nobg-whiteblue.webp"
-              }
+              src="/logo-nobg.webp"
               alt="Logo Paso El Ramo"
             />
             {/* <Text>PASO EL RAMO</Text> */}
