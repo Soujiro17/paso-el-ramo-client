@@ -62,7 +62,6 @@ function Colecciones() {
   const swiper = useRef(null);
 
   useEffect(() => {
-    let handleResize;
     if (swiper.current) {
       const handleResize = () => {
         if (window.innerWidth < 520) {
@@ -70,13 +69,8 @@ function Colecciones() {
         }
       };
 
-      window.addEventListener("resize", handleResize);
-
       handleResize();
     }
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
   }, [swiper.current, selectedCollection]);
 
   return (
