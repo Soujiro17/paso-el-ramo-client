@@ -27,6 +27,26 @@ html {
   background: #555;
 }
 
+#slide-add-collection-first {
+  display: none !important;
+}
+
+#slide-add-collection-last {
+  display: flex;
+}
+
+.swiper-cont {
+  width: 100%;
+  margin: 2rem 0;
+  padding: 1rem 2rem !important;
+  overflow: hidden;
+}
+
+.swiper-slide {
+  justify-content: center;
+  display: flex !important;
+}
+
 @media only screen and (max-width: 1250px) {
   .main-container {
     padding-bottom: 100px !important;
@@ -53,6 +73,12 @@ html {
 @media only screen and (max-width: 714px) {
   .notas-container {
     padding: 1rem !important;
+  }
+  #slide-add-collection-last {
+    display: none !important;
+  }
+  #slide-add-collection-first {
+    display: flex !important;
   }
 
   .input-nota,

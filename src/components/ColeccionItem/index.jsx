@@ -1,27 +1,32 @@
 import ReactJdenticon from "react-jdenticon";
 import { Badge, Box, Card } from "@chakra-ui/react";
-import { CloseIcon } from "@chakra-ui/icons";
-import AlertDialogComponent from "../AlertDialog";
+// import { SwiperSlide } from "swiper/react";
+// import { CloseIcon } from "@chakra-ui/icons";
+// import AlertDialogComponent from "../AlertDialog";
 
 function ColeccionItem({
   nombre = "",
   onClick,
   id,
   editing = false,
-  deleteColeccion,
+  // deleteColeccion,
 }) {
   return (
     <Box
       height="150px"
-      width="300px"
+      width="100%"
+      maxWidth="300px"
       minHeight="150px"
-      minWidth="300px"
-      maxW="sm"
       borderWidth="1px"
       borderRadius="lg"
       overflow="hidden"
       cursor="pointer"
-      className="coleccion-item"
+      className={`coleccion-item ${editing ? "active" : ""}`}
+      css={{
+        "&.active": {
+          boxShadow: "0px 0 14px 4px var(--chakra-colors-blue-300)",
+        },
+      }}
     >
       <Card height="100%" position="relative">
         <Card position="relative" zIndex="100">
@@ -45,22 +50,25 @@ function ColeccionItem({
             >
               {nombre}
             </Box>{" "}
-            {editing ? (
-              <Badge ml="1" mr="2">
-                Editando...
-              </Badge>
-            ) : (
-              <AlertDialogComponent
-                iconButton
-                onConfirm={deleteColeccion}
-                buttonScheme="red"
-                buttonSize="sm"
-                title="Eliminar colección"
-                description={`¿Deseas eliminar la colección <strong>${nombre}</strong>`}
-                zIndexButton={200}
-                icon={<CloseIcon />}
-              />
-            )}
+            {
+              editing ? (
+                <Badge ml="1" mr="2">
+                  Editando...
+                </Badge>
+              ) : null
+              // (
+              //   <AlertDialogComponent
+              //     iconButton
+              //     onConfirm={deleteColeccion}
+              //     buttonScheme="red"
+              //     buttonSize="sm"
+              //     title="Eliminar colección"
+              //     description={`¿Deseas eliminar la colección <strong>${nombre}</strong>`}
+              //     zIndexButton={200}
+              //     icon={<CloseIcon />}
+              //   />
+              // )
+            }
           </Box>
         </Card>
         <Card
