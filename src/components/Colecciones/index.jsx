@@ -10,25 +10,10 @@ const swiperBreakpoints = {
     slidesPerView: 1.7,
   },
   650: {
-    slidesPerView: 2,
-  },
-  800: {
     slidesPerView: 2.5,
   },
   1000: {
-    slidesPerView: 3,
-  },
-  1200: {
-    slidesPerView: 3.5,
-  },
-  1400: {
-    slidesPerView: 4,
-  },
-  1600: {
-    slidesPerView: 4.5,
-  },
-  1800: {
-    slidesPerView: 5,
+    slidesPerView: 3.3,
   },
 };
 
@@ -37,9 +22,9 @@ function AddCollectionCard({ addCollection }) {
     <Box
       key={0}
       height="150px"
-      width="300px"
+      maxWidth="300px"
+      width="100%"
       minHeight="150px"
-      minWidth="300px"
       maxW="sm"
       borderWidth="1px"
       borderRadius="lg"
@@ -78,13 +63,13 @@ function Colecciones() {
       className="swiper-cont"
       modules={[Navigation, Pagination, Scrollbar, A11y]}
       spaceBetween={50}
-      slidesPerView={1.2}
+      slidesPerView={1.5}
       navigation
       pagination={{ clickable: true }}
       scrollbar={{ draggable: true }}
       breakpoints={swiperBreakpoints}
     >
-      <SwiperSlide id="slide-add-collection-first">
+      <SwiperSlide>
         <AddCollectionCard addCollection={addCollection} />
       </SwiperSlide>
       {colecciones.map((coleccion) => {
@@ -108,9 +93,6 @@ function Colecciones() {
           </SwiperSlide>
         );
       })}
-      <SwiperSlide id="slide-add-collection-last">
-        <AddCollectionCard addCollection={addCollection} />
-      </SwiperSlide>
     </Swiper>
   );
 }

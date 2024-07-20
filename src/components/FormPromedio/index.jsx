@@ -87,7 +87,6 @@ function FormPromedio() {
         gap="10px"
         alignItems="center"
         padding="12"
-        width="50%"
         className="notas-container"
       >
         {coleccion && (
