@@ -2,6 +2,7 @@
 import { Box, Stack, Text, useColorModeValue } from "@chakra-ui/react";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { useEffect, useRef } from "react";
 import useCollections from "../../hooks/useCollections";
 import ColeccionItem from "../ColeccionItem";
 
@@ -58,12 +59,33 @@ function Colecciones() {
     selectedCollection,
   } = useCollections();
 
+  const swiper = useRef(null);
+
+  useEffect(() => {
+    let handleResize;
+    if (swiper.current) {
+      const handleResize = () => {
+        if (window.innerWidth < 520) {
+          swiper.current.swiper.slideNext();
+        }
+      };
+
+      window.addEventListener("resize", handleResize);
+
+      handleResize();
+    }
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [swiper.current, selectedCollection]);
+
   return (
     <Swiper
+      ref={swiper}
       className="swiper-cont"
       modules={[Navigation, Pagination, Scrollbar, A11y]}
       spaceBetween={50}
-      slidesPerView={1.5}
+      slidesPerView={1}
       navigation
       pagination={{ clickable: true }}
       scrollbar={{ draggable: true }}
@@ -76,7 +98,7 @@ function Colecciones() {
         const isEqual = coleccion.id === selectedCollection?.id;
 
         return (
-          <SwiperSlide key={coleccion.id}>
+          <SwiperSlide key={coleccion.id} data-is-selected={isEqual}>
             <ColeccionItem
               id={coleccion.id}
               onClick={() => selectCollection(isEqual ? null : coleccion.id)}
