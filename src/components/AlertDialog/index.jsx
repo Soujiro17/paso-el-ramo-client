@@ -26,6 +26,11 @@ function AlertDialogComponent({
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef();
 
+  const onClickConfirm = () => {
+    onConfirm();
+    onClose();
+  };
+
   return (
     <>
       {iconButton ? (
@@ -62,7 +67,7 @@ function AlertDialogComponent({
               <Button ref={cancelRef} onClick={onClose}>
                 {cancelText}
               </Button>
-              <Button colorScheme="red" onClick={onConfirm} ml={3}>
+              <Button colorScheme="red" onClick={onClickConfirm} ml={3}>
                 {confirmText}
               </Button>
             </AlertDialogFooter>

@@ -12,9 +12,13 @@ import Nota from "../Nota";
 import AlertDialogComponent from "../AlertDialog";
 import useCollections from "../../hooks/useCollections";
 
-function MutateColeccion({ nombre, notaMaxima, notaMinima, examen }) {
-  const { addNota, mutateSaveCollection, mutateRemoveCollection } =
-    useCollections();
+function MutateColeccion() {
+  const {
+    addNota,
+    mutateSaveCollection,
+    mutateRemoveCollection,
+    selectedCollection,
+  } = useCollections();
 
   return (
     <>
@@ -26,14 +30,14 @@ function MutateColeccion({ nombre, notaMaxima, notaMinima, examen }) {
       </Box>
       <Flex flexDirection="column" textAlign="center" gap="10px">
         <Text fontSize="2xl">¿Das exámen?</Text>
-        {examen ? (
+        {selectedCollection.examen ? (
           <Nota
             nombre="Exámen"
-            id={examen.id}
-            nota={examen.nota}
-            porcentaje={examen.porcentaje}
-            min={notaMinima}
-            max={notaMaxima}
+            id={selectedCollection.examen.id}
+            nota={selectedCollection.examen.nota}
+            porcentaje={selectedCollection.examen.porcentaje}
+            min={selectedCollection.notaMinima}
+            max={selectedCollection.notaMaxima}
             type="examen"
           />
         ) : (
@@ -50,10 +54,15 @@ function MutateColeccion({ nombre, notaMaxima, notaMinima, examen }) {
             Guardar colección
           </Button>
           <AlertDialogComponent
-            onConfirm={mutateRemoveCollection}
+            onConfirm={() =>
+              mutateRemoveCollection({
+                id: selectedCollection.id,
+                synced: selectedCollection.synced,
+              })
+            }
             buttonText="Eliminar colección"
             confirmText="Eliminar"
-            description={`¿Deseas eliminar la colección <strong>${nombre}</strong>?`}
+            description={`¿Deseas eliminar la colección <strong>${selectedCollection.nombre}</strong>?`}
             title="Eliminar colección"
           />
         </Center>

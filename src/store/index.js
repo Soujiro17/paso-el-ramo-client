@@ -2,7 +2,7 @@
 import { create } from "zustand";
 import { v4 as uuidv4 } from "uuid";
 
-export const useCollectionStore = create((set) => ({
+export const useCollectionStore = create((set, get) => ({
   collections: [],
   selectedCollection: null,
 
@@ -46,29 +46,30 @@ export const useCollectionStore = create((set) => ({
       ...state,
       collections: state.collections.map((c) =>
         c.id === state.selectedCollection.id
-          ? { ...c, ...state.selectedCollection }
+          ? { ...c, ...state.selectedCollection, synced: true }
           : c
       ),
       selectedCollection: null,
     })),
 
   removeCollection: (idCollection) => {
-    if (idCollection)
+    if (idCollection === get().selectedCollection?.id)
       return set((state) => ({
         ...state,
-        collections: state.collections.filter((c) => c.id !== idCollection),
+        collections: state.collections.filter(
+          (c) => c.id !== state.selectedCollection.id
+        ),
+        selectedCollection: null,
       }));
 
     return set((state) => ({
       ...state,
-      collections: state.collections.filter(
-        (c) => c.id !== state.selectedCollection.id
-      ),
-      selectedCollection: null,
+      collections: state.collections.filter((c) => c.id !== idCollection),
     }));
   },
 
-  clearCollections: () => set((state) => ({ ...state, collections: [] })),
+  clearCollections: () =>
+    set((state) => ({ ...state, collections: [], selectedCollection: null })),
 
   loadCollections: (collections) =>
     set((state) => ({ collections: [...state.collections, ...collections] })),

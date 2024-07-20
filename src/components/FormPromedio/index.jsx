@@ -1,8 +1,7 @@
 /* eslint-disable no-unsafe-optional-chaining */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Card, Center, Highlight, Text, useToast } from "@chakra-ui/react";
+import { Card, Center, Highlight, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import useAuth from "../../hooks/useAuth";
 import Nota from "../Nota";
 import colors from "../../lib/colors";
 import ColeccionHeader from "../ColeccionHeader";
@@ -82,15 +81,6 @@ function FormPromedio() {
     }
   }, [coleccion?.notas]);
 
-  /*
-  useEffect(() => {
-    if (!auth) {
-      clearSelected();
-      setNewColeccion(null);
-    }
-  }, [auth]);
-  */
-
   return (
     <>
       <Card
@@ -127,13 +117,7 @@ function FormPromedio() {
         {coleccion && (
           <>
             <SumasNotas coleccion={coleccion} />
-            <MutateColeccion
-              notaMaxima={coleccion.notaMinima}
-              notaMinima={coleccion.notaMaxima}
-              nombre={coleccion.nombre}
-              examen={coleccion.examen}
-              idColeccion={coleccion.id}
-            />
+            <MutateColeccion />
           </>
         )}
       </Card>

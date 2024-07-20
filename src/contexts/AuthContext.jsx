@@ -21,6 +21,9 @@ function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   const loadCollections = useCollectionStore((state) => state.loadCollections);
+  const clearCollections = useCollectionStore(
+    (state) => state.clearCollections
+  );
 
   /* PETICIONES */
   const { isLoading: isLoadingColecciones, refetch: refetchColecciones } =
@@ -44,6 +47,7 @@ function AuthProvider({ children }) {
   const resetAll = () => {
     setAuth("");
     setUser(null);
+    clearCollections();
   };
 
   const value = useMemo(

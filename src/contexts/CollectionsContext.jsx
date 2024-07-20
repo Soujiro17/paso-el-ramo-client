@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { createContext, useMemo } from "react";
 import { useShallow } from "zustand/react/shallow";
+import { useToast } from "@chakra-ui/react";
 import { useCollectionStore } from "../store";
 import usePrivateMutation from "../hooks/usePrivateMutation";
 import {
@@ -24,6 +25,8 @@ export const CollectionsContext = createContext({
 function CollectionsProvider({ children }) {
   const { user } = useAuth();
   const colecciones = useCollectionStore((state) => state.collections);
+
+  const toast = useToast();
 
   /* COLECCIONES CRUD */
   const {
@@ -58,14 +61,20 @@ function CollectionsProvider({ children }) {
   const { mutateAsync: mutateSaveCollection } = usePrivateMutation({
     mutationKey: ["save-coleccion"],
     mutationFn: (data) => {
-      if (user && !selectCollection.synced)
-        return crearColeccion({ ...data, ...selectCollection });
-      if (user && selectCollection.synced)
-        return actualizarColeccion({ ...data, ...selectCollection });
+      if (user && !selectedCollection.synced)
+        return crearColeccion({ ...data, coleccion: selectedCollection });
+      if (user && selectedCollection.synced)
+        return actualizarColeccion({
+          ...data,
+          coleccion: selectedCollection,
+          id: selectedCollection.id,
+        });
 
       return data;
     },
-    onSuccess: () => {
+    onSuccessMessage: "Colección guardada con éxito",
+    onErrorMessage: "Error al guardar la colección, vuelve a intentarlo",
+    onSuccess: (data) => {
       saveCollection();
     },
   });
@@ -73,10 +82,12 @@ function CollectionsProvider({ children }) {
   const { mutateAsync: mutateRemoveCollection } = usePrivateMutation({
     mutationKey: ["delete-coleccion"],
     mutationFn: (data) => {
-      if (user && data && data?.synced) eliminarColeccion({ ...data });
+      if (user && data.synced) return eliminarColeccion({ ...data });
 
       return data;
     },
+    onSuccessMessage: "Colección eliminada con éxito",
+    onErrorMessage: "Error al eliminar la colección, vuelve a intentarlo",
     onSuccess: (data) => {
       removeCollection(data.id);
     },
