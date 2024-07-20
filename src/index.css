@@ -38,7 +38,7 @@ html {
 .swiper-cont {
   width: 100%;
   margin: 2rem 0;
-  padding: 1rem 2rem !important;
+  padding: 1rem 0 !important;
   overflow: hidden;
 }
 

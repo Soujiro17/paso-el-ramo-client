@@ -72,14 +72,14 @@ function ColeccionItem({
           </Box>
         </Card>
         <Card
-          width="300px"
+          width="100%"
           height="300px"
           position="absolute"
           inset="0"
           margin="auto"
           onClick={onClick}
         >
-          <ReactJdenticon size="300" value={id} />
+          <ReactJdenticon size="100%" value={id} />
         </Card>
       </Card>
     </Box>

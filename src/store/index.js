@@ -36,7 +36,7 @@ export const useCollectionStore = create((set, get) => ({
 
       return {
         ...state,
-        collections: [...state.collections, newCollection],
+        collections: [newCollection, ...state.collections],
         selectedCollection: newCollection,
       };
     }),
