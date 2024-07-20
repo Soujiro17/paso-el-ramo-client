@@ -3,13 +3,13 @@ import { createContext, useMemo } from "react";
 import { useShallow } from "zustand/react/shallow";
 import { useToast } from "@chakra-ui/react";
 import { useCollectionStore } from "../store";
-import usePrivateMutation from "../hooks/usePrivateMutation";
 import {
   eliminarColeccion,
   actualizarColeccion,
   crearColeccion,
 } from "../app/api/colecciones";
 import useAuth from "../hooks/useAuth";
+import useMidMutation from "../hooks/useMidMutation";
 
 export const CollectionsContext = createContext({
   colecciones: [],
@@ -58,7 +58,7 @@ function CollectionsProvider({ children }) {
   );
 
   /* PETICIONES */
-  const { mutateAsync: mutateSaveCollection } = usePrivateMutation({
+  const { mutateAsync: mutateSaveCollection } = useMidMutation({
     mutationKey: ["save-coleccion"],
     mutationFn: (data) => {
       if (user && !selectedCollection.synced)
@@ -72,25 +72,25 @@ function CollectionsProvider({ children }) {
 
       return data;
     },
-    onSuccessMessage: "Colección guardada con éxito",
-    onErrorMessage: "Error al guardar la colección, vuelve a intentarlo",
-    onSuccess: (data) => {
+    onSuccessCallback: (data) => {
       saveCollection();
     },
+    onSuccessMessage: "Colección guardada con éxito",
+    onErrorMessage: "Error al guardar la colección, vuelve a intentarlo",
   });
 
-  const { mutateAsync: mutateRemoveCollection } = usePrivateMutation({
+  const { mutateAsync: mutateRemoveCollection } = useMidMutation({
     mutationKey: ["delete-coleccion"],
     mutationFn: (data) => {
       if (user && data.synced) return eliminarColeccion({ ...data });
 
       return data;
     },
-    onSuccessMessage: "Colección eliminada con éxito",
-    onErrorMessage: "Error al eliminar la colección, vuelve a intentarlo",
     onSuccess: (data) => {
       removeCollection(data.id);
     },
+    onSuccessMessage: "Colección eliminada con éxito",
+    onErrorMessage: "Error al eliminar la colección, vuelve a intentarlo",
   });
 
   const value = useMemo(

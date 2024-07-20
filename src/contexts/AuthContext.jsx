@@ -1,6 +1,5 @@
 import { createContext, useState, useMemo, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import usePrivateQuery from "../hooks/usePrivateQuery";
 import { refresh } from "../app/api/auth";
 import { getColecciones } from "../app/api/colecciones";
 import Spinner from "../components/Spinner";
@@ -27,7 +26,7 @@ function AuthProvider({ children }) {
 
   /* PETICIONES */
   const { isLoading: isLoadingColecciones, refetch: refetchColecciones } =
-    usePrivateQuery({
+    useQuery({
       queryKey: ["colecciones"],
       queryFn: getColecciones,
       onSuccess: (data) => loadCollections(data),
@@ -37,6 +36,7 @@ function AuthProvider({ children }) {
   const { isLoading: isLoadingRefresh } = useQuery({
     queryKey: ["user"],
     queryFn: refresh,
+    // enabled: false,
     onSuccess: (data) => {
       refetchColecciones();
       setAuth(data.accessToken);

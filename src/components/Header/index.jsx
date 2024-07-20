@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unknown-property */
 import {
   Box,
   Flex,
@@ -12,7 +13,6 @@ import {
   Stack,
   useColorMode,
   Center,
-  Image,
   Input,
   FormLabel,
   Text,
@@ -100,14 +100,18 @@ function Header() {
 
   // const { isOpen, onOpen, onClose } = useDisclosure();
   return (
-    <Box minHeight="7vh" bg={useColorModeValue("gray.100", "gray.900")} px={4}>
+    <Box
+      minHeight="7vh"
+      bg={useColorModeValue("gray.100", "gray.900")}
+      px={{ base: 4, md: 10 }}
+    >
       <Flex h={16} alignItems="center" justifyContent="space-between">
         <LinkRouter to="/">
           <Box display="flex" alignItems="center">
-            <Image
+            <img
               height={70}
               width={120}
-              objectFit="contain"
+              fetchpriority="high"
               src={
                 colorMode === "light"
                   ? "/logo-nobg.webp"
@@ -125,7 +129,10 @@ function Header() {
         </Flex> */}
         <Flex alignItems="center">
           <Stack direction="row" spacing={7}>
-            <Button onClick={toggleColorMode}>
+            <Button
+              onClick={toggleColorMode}
+              aria-label="Activar Modo Nocturno"
+            >
               {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
             </Button>
 
@@ -168,6 +175,7 @@ function Header() {
                     rounded="full"
                     variant="link"
                     cursor="pointer"
+                    color="gray.700"
                     minW={0}
                   >
                     Iniciar sesión
