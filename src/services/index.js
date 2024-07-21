@@ -19,6 +19,7 @@ export const axiosPublic = axios.create({
 
 const createAxiosInstance = async () => {
   const { accessToken } = await refresh();
+
   const axiosInstance = axios.create({
     baseURL, // Reemplaza con tu URL base
     headers: {

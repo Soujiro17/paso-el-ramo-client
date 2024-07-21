@@ -36,8 +36,11 @@ function AuthProvider({ children }) {
   const { isLoading: isLoadingRefresh } = useQuery({
     queryKey: ["user"],
     queryFn: refresh,
+    retry: 0,
     // enabled: false,
     onSuccess: (data) => {
+      if (data.status === "error") return;
+
       refetchColecciones();
       setAuth(data.accessToken);
       setUser(data.user);
