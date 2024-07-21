@@ -26,7 +26,6 @@ function AddCollectionCard({ addCollection }) {
       maxWidth="300px"
       width="100%"
       minHeight="150px"
-      maxW="sm"
       borderWidth="1px"
       borderRadius="lg"
       overflow="hidden"

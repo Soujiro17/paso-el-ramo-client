@@ -1,4 +1,11 @@
-import { Badge, ButtonGroup, Flex, IconButton } from "@chakra-ui/react";
+import {
+  Badge,
+  Box,
+  ButtonGroup,
+  Flex,
+  IconButton,
+  useColorMode,
+} from "@chakra-ui/react";
 import {
   Editable,
   EditableInput,
@@ -49,6 +56,8 @@ function CustomEditable({
 }) {
   const [isEditing, setIsEditing] = useState(false);
 
+  const { colorMode } = useColorMode();
+
   const content = (
     <EditablePreview
       overflow="hidden"
@@ -60,41 +69,47 @@ function CustomEditable({
   );
 
   return (
-    <Editable
-      textAlign="center"
-      fontSize={fontSize}
-      value={isEditing ? value : value || defaultValue}
-      isPreviewFocusable={false}
-      display="flex"
-      alignItems="center"
-      gap="10px"
-      className={className}
-    >
-      {badge ? (
-        <Badge
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          fontSize={fontSize}
-          className="coleccion-nombre-badge"
-        >
-          {content}
-        </Badge>
-      ) : (
-        content
-      )}
-      {/* Here is the custom input */}
-      <EditableInput
-        type="text"
-        width="100%"
-        name={name}
+    <Box position="relative" className={className}>
+      <Editable
+        textAlign="center"
+        fontSize={["sm", "md", "xl"]}
         value={isEditing ? value : value || defaultValue}
-        onChange={onChange}
-        maxLength={maxLength}
-        required
-      />
-      <EditableControls setIsEditing={setIsEditing} />
-    </Editable>
+        isPreviewFocusable={false}
+        width={isEditing ? "fit-content" : "inherit"}
+        bg={colorMode === "dark" ? "gray.700" : "white"}
+        display="flex"
+        position={isEditing ? "sticky" : "relative"}
+        zIndex="100"
+        alignItems="center"
+        padding=".3rem .2rem"
+        gap="10px"
+      >
+        {badge ? (
+          <Badge
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            fontSize={fontSize}
+            className="coleccion-nombre-badge"
+          >
+            {content}
+          </Badge>
+        ) : (
+          content
+        )}
+        {/* Here is the custom input */}
+        <EditableInput
+          type="text"
+          width="150px"
+          name={name}
+          value={isEditing ? value : value || defaultValue}
+          onChange={onChange}
+          maxLength={maxLength}
+          required
+        />
+        <EditableControls setIsEditing={setIsEditing} />
+      </Editable>
+    </Box>
   );
 }
 

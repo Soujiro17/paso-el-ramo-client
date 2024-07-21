@@ -22,6 +22,8 @@ function ColeccionHeader({ nombre, handleValues }) {
       textOverflow="ellipsis"
       whiteSpace="nowrap"
       wordBreak="break-all"
+      position="relative"
+      zIndex="100"
       mb="2"
     >
       <Box
